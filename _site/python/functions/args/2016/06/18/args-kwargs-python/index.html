@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Write your site description here. It will be used as your sites meta description as well!">
+
+    <title>*args and **kwargs in python functions - Hello_World()</title>
+
+    <link rel="canonical" href="http://Mohammed-Ashour.github.io/python/functions/args/2016/06/18/args-kwargs-python/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/clean-blog.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link type="application/atom+xml" rel="alternate" href="http://Mohammed-Ashour.github.io/feed.xml" title="Hello_World()" />
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Hello_World()</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">/Home</a>
+                </li>
+                
+				
+                <li>
+                    <a href="/about/">/Mohammed Ali Ashour</a>
+                </li>
+				
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header" style="background-image: url('/img/python-args.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>*args and **kwargs in python functions</h1>
+                    
+                    <span class="meta">Posted by Hello_World() on June 18, 2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+				<h2 id="and-args">* and *args</h2>
+<p>let’s start with that simple function</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">sum_3</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="o">+</span><span class="n">c</span><span class="p">)</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">sum_3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span></code></pre></figure>
+
+<p>we get</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="mi">6</span></code></pre></figure>
+
+<p>but if we use this function with 2 args</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">sum_3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="c"># too little args </span></code></pre></figure>
+
+<p>we get an error for the missing argument</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="nb">TypeError</span>                                 <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">2</span><span class="o">-</span><span class="n">bc6e0dc1ceb4</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="o">----&gt;</span> <span class="mi">1</span> <span class="n">sum_3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="c"># too little args</span>
+
+<span class="nb">TypeError</span><span class="p">:</span> <span class="n">sum_3</span><span class="p">()</span> <span class="n">missing</span> <span class="mi">1</span> <span class="n">required</span> <span class="n">positional</span> <span class="n">argument</span><span class="p">:</span> <span class="s">'c'</span></code></pre></figure>
+
+<p>and here with 4 argument</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">sum_3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> <span class="c"># too many args</span></code></pre></figure>
+
+<p>we get an error for the argument issue</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="nb">TypeError</span>                                 <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">3</span><span class="o">-</span><span class="mi">6</span><span class="n">ed3f114fc0b</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="o">----&gt;</span> <span class="mi">1</span> <span class="n">sum_3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> <span class="c"># too many args</span>
+
+<span class="nb">TypeError</span><span class="p">:</span> <span class="n">sum_3</span><span class="p">()</span> <span class="n">takes</span> <span class="mi">3</span> <span class="n">positional</span> <span class="n">arguments</span> <span class="n">but</span> <span class="mi">4</span> <span class="n">were</span> <span class="n">given</span></code></pre></figure>
+
+<p>So, What is the deal when we want to make a function accepts any number
+of argument without complaining ?
+in this issue, pthon got the astric magic argument 
+let’s see what it can really do</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">sum_any</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="nb">sum</span> <span class="o">=</span> <span class="mi">0</span> 
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">args</span> <span class="p">:</span>
+        <span class="nb">sum</span> <span class="o">+=</span> <span class="n">i</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">)</span></code></pre></figure>
+
+<p>let’s play with our new baby function and it’s magic argument</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c">#accepts any num of args</span>
+<span class="n">sum_any</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">sum_any</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">sum_any</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">sum_any</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">])</span> <span class="c"># sum_any(1,2,3,4,5,6)</span>
+<span class="n">sum_any</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span></code></pre></figure>
+
+<p>the result :</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="mi">1</span>
+<span class="mi">6</span>
+<span class="mi">21</span>
+<span class="mi">21</span>
+<span class="mi">21</span></code></pre></figure>
+
+<p>so it seems that we have alot of magic here, the astrik argument
+makes our function accept any number of argument and take them all
+in a tuple so we can deal with any of them</p>
+
+<p>beside that we had some other shapes of passing those parameters like
+sum_any(<em>[1,2,3,4,5,6]) that is equivalent to sum_any(1, 2, 3, 4, 5, 6)
+and
+sum_any(</em>(1,2,3,4,5,6)) is equivalent to sum_ny(1, 2, 3, 4, 5, 6)
+that is what we call unpacking
+we also can use the unpacking methode in the ordinary functions , but
+we should take care of the number of the elements in the list we pass</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">num_3</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">num_4</span> <span class="o">=</span> <span class="n">num_3</span><span class="o">+</span> <span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">sum_3</span><span class="p">(</span><span class="o">*</span><span class="n">num_3</span><span class="p">)</span> <span class="c"># sum_3(1,2,3)</span>
+<span class="n">sum_3</span><span class="p">(</span><span class="o">*</span><span class="n">num_4</span><span class="p">)</span></code></pre></figure>
+
+<p>the result :</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="mi">6</span>
+
+<span class="o">---------------------------------------------------------------------------</span>
+<span class="nb">TypeError</span>                                 <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">7</span><span class="o">-</span><span class="mi">67</span><span class="n">a4778bddc3</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+      <span class="mi">2</span> <span class="n">num_4</span> <span class="o">=</span> <span class="n">num_3</span><span class="o">+</span> <span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+      <span class="mi">3</span> <span class="n">sum_3</span><span class="p">(</span><span class="o">*</span><span class="n">num_3</span><span class="p">)</span> <span class="c"># sum_3(1,2,3)</span>
+<span class="o">----&gt;</span> <span class="mi">4</span> <span class="n">sum_3</span><span class="p">(</span><span class="o">*</span><span class="n">num_4</span><span class="p">)</span>
+
+<span class="nb">TypeError</span><span class="p">:</span> <span class="n">sum_3</span><span class="p">()</span> <span class="n">takes</span> <span class="mi">3</span> <span class="n">positional</span> <span class="n">arguments</span> <span class="n">but</span> <span class="mi">4</span> <span class="n">were</span> <span class="n">given</span></code></pre></figure>
+
+<p>we also can make a function takes ordinary and astrik argument ,
+but we must make our ordinary argument the first one, because the
+astrik argument takes all the arguments that comes after and if we 
+put it in the first place it will take all the argument and always 
+we will have a missing argument that have no data left
+lets have an example</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">new_print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"a = {0}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+<span class="n">new_print</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="s">"five"</span><span class="p">)</span></code></pre></figure>
+
+<p>the result</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="mi">2</span>
+<span class="mi">3</span>
+<span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="n">five</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mi">1</span></code></pre></figure>
+
+<h2 id="and-kwargs">** and **kwargs</h2>
+<p>the keyword argument (**kwargs) works like the single astrik one 
+except that it needs a key and value for each argument</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">try_kwargs</span><span class="p">(</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s">'one'</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'hey we got '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s">'one'</span><span class="p">]))</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"key : {0} value : {1}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+
+<span class="n">try_kwargs</span><span class="p">(</span><span class="n">one</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">two</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></code></pre></figure>
+
+<p>the result :</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">hey</span> <span class="n">we</span> <span class="n">got</span> <span class="mi">1</span>
+<span class="n">key</span> <span class="p">:</span> <span class="n">one</span> <span class="n">value</span> <span class="p">:</span> <span class="mi">1</span>
+<span class="n">key</span> <span class="p">:</span> <span class="n">two</span> <span class="n">value</span> <span class="p">:</span> <span class="mi">2</span></code></pre></figure>
+
+<p>we can use both of them in one function !</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">try_args_kwargs</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">args</span> <span class="p">:</span>
+        <span class="k">print</span> <span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="p">:</span>
+        
+        <span class="k">print</span><span class="p">(</span><span class="s">"key : {0} value : {1}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+<span class="n">try_args_kwargs</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="n">one</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">two</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></code></pre></figure>
+
+<p>the result :</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="mi">5</span>
+<span class="mi">7</span>
+<span class="mi">9</span>
+<span class="n">key</span> <span class="p">:</span> <span class="n">one</span> <span class="n">value</span> <span class="p">:</span> <span class="mi">1</span>
+<span class="n">key</span> <span class="p">:</span> <span class="n">two</span> <span class="n">value</span> <span class="p">:</span> <span class="mi">2</span></code></pre></figure>
+
+<p>Note:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">ls</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">ls</span>
+<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+<span class="n">a</span><span class="p">,</span> <span class="o">*</span><span class="n">rest</span> <span class="o">=</span> <span class="n">ls</span>
+<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">rest</span><span class="p">)</span>
+<span class="o">*</span><span class="n">rest</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">ls</span> 
+<span class="k">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">rest</span><span class="p">)</span></code></pre></figure>
+
+<p>the result :</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="mi">1</span>
+<span class="mi">2</span>
+<span class="mi">3</span>
+<span class="mi">1</span>
+<span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="mi">3</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span></code></pre></figure>
+
+
+
+                <hr>
+
+                <ul class="pager">
+                    
+                    
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</article>
+
+<hr>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://www.facebook.com/MAliAshour">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://github.com/Mohammed-Ashour">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="mailto:m.aly.ashour@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://www.youtube.com/channel/UCMWoyK_xNL4Ubbhoiwylhxg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-youtube fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy;  2016</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/clean-blog.min.js "></script>
+
+
+    
+
+
+</body>
+
+</html>
