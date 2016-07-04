@@ -8,9 +8,10 @@ baseurl: ""
 url: "http://Mohammed-Ashour.github.io"
 twitter_username:
 github_username:  Mohammed-Ashour
-facebook_username:  MAliAshour
+facebook_username:
 email_username:  m.aly.ashour@gmail.com
 youtube_username: UCMWoyK_xNL4Ubbhoiwylhxg
+linkedin_username: malyashour
 # Google Analytics
 # To enable google analytics, uncomment below line with a valid Google Tracking ID
 # google_tracking_id:
