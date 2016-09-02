@@ -9,9 +9,19 @@ body {
   font-size: 20px;
   color: #404040;
 }
+.date{
+  font-style:italic;
+  font-size:15px;
+  margin: 0px;
+
+}
+.detail{
+  font-size:15px;
+  margin: 0px;
+}
 p {
   line-height: 1.5;
-  margin: 30px 0;
+  margin: 0px 0;
 }
 p a {
   text-decoration: underline;
