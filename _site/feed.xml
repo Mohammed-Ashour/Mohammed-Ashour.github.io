@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.4.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2017-04-14T11:27:27+02:00</updated><id>http://localhost:4000/</id><title type="html">Hello_World()</title><subtitle>Write your site description here. It will be used as your sites meta description as well!</subtitle><entry><title type="html">Simple Linear Regression from scratch Using Python3</title><link href="http://localhost:4000/python/machinelearning/linearregression/2017/04/14/linear-regression-from-scratch/" rel="alternate" type="text/html" title="Simple Linear Regression from scratch Using Python3" /><published>2017-04-14T10:00:00+02:00</published><updated>2017-04-14T10:00:00+02:00</updated><id>http://localhost:4000/python/machinelearning/linearregression/2017/04/14/linear-regression-from-scratch</id><content type="html" xml:base="http://localhost:4000/python/machinelearning/linearregression/2017/04/14/linear-regression-from-scratch/">&lt;h2 id=&quot;simple-implementation-for-the-linear-regression-algorithm&quot;&gt;Simple Implementation for the Linear Regression Algorithm&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.4.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2017-04-14T11:32:29+02:00</updated><id>http://localhost:4000/</id><title type="html">Hello_World()</title><subtitle>Write your site description here. It will be used as your sites meta description as well!</subtitle><entry><title type="html">Simple Linear Regression from scratch Using Python3</title><link href="http://localhost:4000/python/machinelearning/linearregression/2017/04/14/linear-regression-from-scratch/" rel="alternate" type="text/html" title="Simple Linear Regression from scratch Using Python3" /><published>2017-04-14T10:00:00+02:00</published><updated>2017-04-14T10:00:00+02:00</updated><id>http://localhost:4000/python/machinelearning/linearregression/2017/04/14/linear-regression-from-scratch</id><content type="html" xml:base="http://localhost:4000/python/machinelearning/linearregression/2017/04/14/linear-regression-from-scratch/">&lt;h2 id=&quot;simple-implementation-for-the-linear-regression-algorithm&quot;&gt;Simple Implementation for the Linear Regression Algorithm&lt;/h2&gt;
 
 &lt;h4 id=&quot;we-will-use&quot;&gt;We will use&lt;/h4&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- Numpy for implementing the matrices ops
@@ -167,11 +167,6 @@ and here is 2 videos I made for this topic , they are in arabic&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;C:\Users\m_ashour\Anaconda3\lib\site-packages\ipykernel\__main__.py:2: DeprecationWarning: Non-string object detected for the array ordering. Please pass in 'C', 'F', 'A', or 'K' instead
-  from ipykernel import kernelapp as app
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
@@ -333,11 +328,6 @@ errors moved from 103.0293328125128 to 6.741761015530938e-09
 &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flatten&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;scatter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;C:\Users\m_ashour\Anaconda3\lib\site-packages\ipykernel\__main__.py:2: DeprecationWarning: Non-string object detected for the array ordering. Please pass in 'C', 'F', 'A', or 'K' instead
-  from ipykernel import kernelapp as app
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 

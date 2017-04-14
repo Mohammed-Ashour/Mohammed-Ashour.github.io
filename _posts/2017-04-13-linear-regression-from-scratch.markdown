@@ -179,9 +179,6 @@ x, y = make_regression(n_features=1,  n_samples=50)
 x = x.flatten(1)
 ```
 
-    C:\Users\m_ashour\Anaconda3\lib\site-packages\ipykernel\__main__.py:2: DeprecationWarning: Non-string object detected for the array ordering. Please pass in 'C', 'F', 'A', or 'K' instead
-      from ipykernel import kernelapp as app
-    
 
 
 ```python
@@ -372,10 +369,6 @@ x = x.flatten(1)
 plt.scatter(x,y)
 plt.show()
 ```
-
-    C:\Users\m_ashour\Anaconda3\lib\site-packages\ipykernel\__main__.py:2: DeprecationWarning: Non-string object detected for the array ordering. Please pass in 'C', 'F', 'A', or 'K' instead
-      from ipykernel import kernelapp as app
-    
 
 
 <img src="{{ site.url }}/img/linear_reg/r5.PNG">
