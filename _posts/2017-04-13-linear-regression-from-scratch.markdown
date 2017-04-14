@@ -22,7 +22,7 @@ The idea of linear regression is quite simple, you just try to draw a line that 
 
 #### So How to Adjust these values? 
 Logically,
-#####   `good accuracy = less errors`
+###   `good accuracy = less errors`
 and if we reached the values of our coefficients that makes less error, we will reach the line that fits the data better, So thinking of that, we need a way that changes the coefficients by reducing the error, and here comes the <b> gradient descent method </b>
 
 ### Gradient Descent
@@ -33,7 +33,7 @@ so we first need to give them an initial values so we can adjust , let's make <b
 then let's try to calculate the error, by feeding our data to the line and comparing the output with the desired one in our dataset and see what we get, and gradually we change the values of <b> <i> a and b </i> </b> so we reduce the error, so all we need to know is the direction of reducing the error, we need the guide to this direction, and that's the gradient descent thing
 
 The main job of Gradient descent algorithm is minimizing any function by changing it's parameters, so we can use it to minimize the error function 
-##### <b> <font color="red"> spoiler alert </font> </b> 
+### <b> <font color="red"> spoiler alert </font> </b> 
 <i>we will use some math here <i>
 
 but don't be panic, it's quite straightforward, all we need to do is
