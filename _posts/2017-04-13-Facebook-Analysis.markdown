@@ -18,18 +18,18 @@ so let's start with first making an FB developer account to get access to the Gr
 this link will help you to get started 
 [https://developers.facebook.com/docs/graph-api](https://developers.facebook.com/docs/graph-api)
 you will need to log in with your current FB account or make one, once you do this, go to your dashboard and make a new app
- <img src="{{ site.url }}/img/Facebook-Analysis_files/newapp.png">
+ <img src="{{ site.url }}/img/Facebook-Analysis_files/newapp.PNG">
  
  then write a name for your app
  
  
- <img src="{{ site.url }}/img/Facebook-Analysis_files/displayname.png">
+ <img src="{{ site.url }}/img/Facebook-Analysis_files/displayname.PNG">
  
  after you are done, go to your dashboard, you will find your app and some important info about it, like the appid and the app secret
  <b>DON'T MAKE THIS INFO AVAILABLE FOR ANYBODY</b>
  
  Ehm, sorry for the loudy text, but seriously , this info should be secret 
- <img src="{{ site.url }}/img/Facebook-Analysis_files/appid.png">
+ <img src="{{ site.url }}/img/Facebook-Analysis_files/appid.PNG">
  
  Now we are ready to have some fun! :D
 
