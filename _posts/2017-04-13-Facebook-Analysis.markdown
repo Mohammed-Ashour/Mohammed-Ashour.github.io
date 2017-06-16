@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Facebook analysis for EgyptionGeeksJobs group"
+title:  "Facebook analysis on EgyptionGeeksJobs group"
 date:   2017-06-15 19:29:33 +0200
 categories: python data analysis facebook
 header-img: "img/Facebook-Analysis_files/Facebook-Analysis_48_0.png"
