@@ -48,12 +48,14 @@ plt.rcParams['figure.figsize'] = (12, 8)
 ```
 
 then we make a config.json file and write down our appid and appsecrete in it , the structure of the config file is simple 
-<code>
+
+```json
 {
     "APPID":"here put your app id",
     "APPSECRET":"here put your app secret"
 }
-</code>
+```
+
 we just open the file and get the info, this way we made our data encapsoulated 
 
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.4.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2017-06-15T20:05:33+02:00</updated><id>http://localhost:4000/</id><title type="html">Hello_World()</title><subtitle>Write your site description here. It will be used as your sites meta description as well!</subtitle><entry><title type="html">Facebook analysis for EgyptionGeeksJobs group</title><link href="http://localhost:4000/python/data/analysis/facebook/2017/06/15/Facebook-Analysis/" rel="alternate" type="text/html" title="Facebook analysis for EgyptionGeeksJobs group" /><published>2017-06-15T19:29:33+02:00</published><updated>2017-06-15T19:29:33+02:00</updated><id>http://localhost:4000/python/data/analysis/facebook/2017/06/15/Facebook-Analysis</id><content type="html" xml:base="http://localhost:4000/python/data/analysis/facebook/2017/06/15/Facebook-Analysis/">&lt;h3 id=&quot;facebook-analysis-for-egyptiongeeksjobs-group&quot;&gt;Facebook analysis for EgyptionGeeksJobs group&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.4.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2017-06-16T03:45:28+02:00</updated><id>http://localhost:4000/</id><title type="html">Hello_World()</title><subtitle>Write your site description here. It will be used as your sites meta description as well!</subtitle><entry><title type="html">Facebook analysis for EgyptionGeeksJobs group</title><link href="http://localhost:4000/python/data/analysis/facebook/2017/06/15/Facebook-Analysis/" rel="alternate" type="text/html" title="Facebook analysis for EgyptionGeeksJobs group" /><published>2017-06-15T19:29:33+02:00</published><updated>2017-06-15T19:29:33+02:00</updated><id>http://localhost:4000/python/data/analysis/facebook/2017/06/15/Facebook-Analysis</id><content type="html" xml:base="http://localhost:4000/python/data/analysis/facebook/2017/06/15/Facebook-Analysis/">&lt;h3 id=&quot;facebook-analysis-for-egyptiongeeksjobs-group&quot;&gt;Facebook analysis for EgyptionGeeksJobs group&lt;/h3&gt;
 
 &lt;p&gt;Here we are gonna do some basic analysis for a public FB group
 My main goals here are&lt;/p&gt;
@@ -12,17 +12,17 @@ My main goals here are&lt;/p&gt;
 this link will help you to get started 
 &lt;a href=&quot;https://developers.facebook.com/docs/graph-api&quot;&gt;https://developers.facebook.com/docs/graph-api&lt;/a&gt;
 you will need to log in with your current FB account or make one, once you do this, go to your dashboard and make a new app
- &lt;img src=&quot;http://localhost:4000/img/Facebook-Analysis_files/newapp.png&quot; /&gt;&lt;/p&gt;
+ &lt;img src=&quot;http://localhost:4000/img/Facebook-Analysis_files/newapp.PNG&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;then write a name for your app&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4000/img/Facebook-Analysis_files/displayname.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/img/Facebook-Analysis_files/displayname.PNG&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;after you are done, go to your dashboard, you will find your app and some important info about it, like the appid and the app secret
  &lt;b&gt;DON’T MAKE THIS INFO AVAILABLE FOR ANYBODY&lt;/b&gt;&lt;/p&gt;
 
 &lt;p&gt;Ehm, sorry for the loudy text, but seriously , this info should be secret 
- &lt;img src=&quot;http://localhost:4000/img/Facebook-Analysis_files/appid.png&quot; /&gt;&lt;/p&gt;
+ &lt;img src=&quot;http://localhost:4000/img/Facebook-Analysis_files/appid.PNG&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Now we are ready to have some fun! :D&lt;/p&gt;
 
@@ -39,14 +39,16 @@ you will need to log in with your current FB account or make one, once you do th
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;then we make a config.json file and write down our appid and appsecrete in it , the structure of the config file is simple 
-&lt;code&gt;
-{
-    &quot;APPID&quot;:&quot;here put your app id&quot;,
-    &quot;APPSECRET&quot;:&quot;here put your app secret&quot;
-}
-&lt;/code&gt;
-we just open the file and get the info, this way we made our data encapsoulated&lt;/p&gt;
+&lt;p&gt;then we make a config.json file and write down our appid and appsecrete in it , the structure of the config file is simple&lt;/p&gt;
+
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;APPID&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;here put your app id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;APPSECRET&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;here put your app secret&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;we just open the file and get the info, this way we made our data encapsoulated&lt;/p&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;config.json&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;config&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
