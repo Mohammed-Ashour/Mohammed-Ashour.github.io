@@ -1,0 +1,51 @@
+* { box-sizing: border-box; }
+html { color: #202020; background: #f1f2f3; font-family: Arial, Helvetica, sans-serif; }
+body { margin: 0; }
+a { color: #174f78; text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible { outline: 2px solid #174f78; outline-offset: 5px; }
+.toolbar { max-width: 900px; margin: auto; padding: 24px 0; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+nav { display: flex; flex-wrap: wrap; gap: 24px; }
+.toolbar a { font-size: 14px; }
+.download { background: #174f78; color: white; padding: 12px 18px; text-decoration: none; white-space: nowrap; }
+.download:hover { background: #103b5b; }
+.a4-page { max-width: 900px; margin: 0 auto 48px; padding: 44px 52px; background: white; font-size: 15px; }
+h1 { font-size: 32px; }
+h2 { font-size: 20px; }
+h3 { font-size: 16px; }
+h1, h2, h3, p, ul, ol { margin-top: 0; }
+ul, ol { padding-left: 21px; }
+hr { border: 0; border-top: 1px solid #ccc; }
+.skip-link { position: absolute; left: 12px; top: -60px; background: white; padding: 10px; }
+.skip-link:focus { top: 8px; }
+@media screen {
+  main.a4-page { line-height: 1.5; }
+  main.a4-page h1 { margin-bottom: 8px; }
+  main.a4-page h2 { margin-top: 26px; margin-bottom: 12px; }
+  main.a4-page h3 { margin-top: 22px; margin-bottom: 6px; }
+  main.a4-page p, main.a4-page ul { margin-bottom: 12px; }
+  main.a4-page li { margin-bottom: 5px; }
+  main.a4-page hr { margin: 22px 0; }
+}
+@media (max-width: 940px) {
+  .toolbar { padding: 20px 24px; }
+  .a4-page { margin-bottom: 0; padding: 28px 24px; }
+}
+@media (max-width: 480px) {
+  .toolbar { align-items: flex-start; flex-direction: column; gap: 18px; }
+  h1 { font-size: 28px; }
+  .a4-page { overflow-wrap: anywhere; }
+}
+@page { size: A4; margin: 12mm 14mm; }
+@media print {
+  html, body { background: white; color: black; }
+  .toolbar, .skip-link { display: none; }
+  .a4-page { max-width: none; margin: 0; padding: 0; font-size: 10pt; }
+  h1 { font-size: 22pt; }
+  h2 { font-size: 13pt; }
+  h3 { font-size: 11pt; }
+  h1, h2, h3 { break-after: avoid; }
+  p, li { orphans: 2; widows: 2; }
+  a { color: black; text-decoration: none; }
+  .page-break { break-before: page; }
+}
