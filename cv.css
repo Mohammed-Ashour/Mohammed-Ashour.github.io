@@ -40,7 +40,17 @@ hr { border: 0; border-top: 1px solid #ccc; }
 @media print {
   html, body { background: white; color: black; }
   .toolbar, .skip-link { display: none; }
-  .a4-page { max-width: none; margin: 0; padding: 0; font-size: 10pt; }
+  .a4-page { max-width: none; margin: 0; padding: 0; font-size: 11pt; line-height: 1.22; }
+  .a4-page h1 { margin-bottom: 5pt; }
+  .a4-page h2 { margin-top: 10pt; margin-bottom: 5pt; }
+  .a4-page h3 { margin-top: 9pt; margin-bottom: 4pt; }
+  .a4-page p { margin-bottom: 5pt; }
+  .a4-page ul, .a4-page ol { margin-bottom: 5pt; }
+  .a4-page li { margin-bottom: 2pt; }
+  .a4-page hr { margin: 8pt 0; }
+  /* Give the less crowded first page more space between paragraphs and bullets. */
+  .a4-page p:has(~ .page-break) { margin-bottom: 7pt; }
+  .a4-page ul:has(~ .page-break) li { margin-bottom: 5pt; }
   h1 { font-size: 22pt; }
   h2 { font-size: 13pt; }
   h3 { font-size: 11pt; }

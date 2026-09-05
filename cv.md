@@ -1,15 +1,3 @@
-<!-- Compact layout: tighten spacing so the resume fits on two pages -->
-<style>
-.a4-page { line-height: 1.15; }
-.a4-page h1 { margin-bottom: 0.1em; }
-.a4-page h2 { margin-top: 0.3em; margin-bottom: 0.25em; }
-.a4-page h3 { margin-top: 0.2em; margin-bottom: 0.12em; }
-.a4-page p { margin-bottom: 0.12em; }
-.a4-page ul, .a4-page ol { margin-bottom: 0.08em; }
-.a4-page li { margin-bottom: 0.02em; }
-.a4-page hr { margin: 0.3em 0; }
-</style>
-
 # Mohamed Ashour
 
 **Senior Software Engineer | Data-Intensive Systems, Cloud & ML Infrastructure**
