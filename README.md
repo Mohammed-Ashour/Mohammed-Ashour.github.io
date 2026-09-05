@@ -1,12 +1,21 @@
 # Mohamed Ashour's CV
 
-Edit `cv.md` and push to `master`. GitHub Actions generates the website and a downloadable PDF from the same Markdown, checks the PDF, and publishes `dist/` to GitHub Pages. No browser-side JavaScript is needed.
+A personal website showing my CV with a PDF download and links to LinkedIn, GitHub, and YouTube.
 
-## One-time deployment setup
+## Files
 
-In the repository's **Settings → Pages → Build and deployment**, set **Source** to **GitHub Actions**. Push these changes or run the **Publish CV** workflow manually.
+- `cv.md` holds the CV text. Both the website and PDF use this file.
+- `index.html` defines the page and profile links.
+- `cv.css` controls the screen layout and A4 print layout.
+- `scripts/build.mjs` converts Markdown to HTML with Marked, then creates the PDF with Playwright and Chromium. It writes the website and PDF to `dist/`.
+- `scripts/check-pdf.py` checks that the PDF has two pages, accessibility tags, and all CV text in the correct order. It uses Poppler's `pdfinfo` and `pdftotext` commands.
+- `.github/workflows/deploy.yml` builds and checks changes, then publishes `dist/` to GitHub Pages on pushes to `master`.
 
-## Local preview
+The website needs no browser JavaScript. The PDF contains selectable text, not screenshots. The `<!-- page-break -->` marker in `cv.md` sets where the second PDF page starts.
+
+Old Jekyll files remain in the repository but are not built or published.
+
+## Run locally
 
 ```sh
 npm ci
@@ -15,27 +24,8 @@ npm run build
 python3 -m http.server 8000 --directory dist
 ```
 
-Open http://localhost:8000. Re-run `npm run build` after editing the Markdown. The PDF is `dist/Mohamed-Ashour-CV.pdf`.
+Open http://localhost:8000. After editing `cv.md`, run the build again. To check the PDF with Poppler installed, run `python3 scripts/check-pdf.py`.
 
-## Editing
+## Publishing
 
-- `cv.md`: CV text and compact PDF spacing. The `<!-- page-break -->` marker starts the next PDF page and is invisible on the website.
-- `index.html`: page template, profile links, and metadata. Keep the `<!-- CV_CONTENT -->` marker.
-- `cv.css`: responsive website and A4 print styles.
-- `.github/workflows/deploy.yml`: build, PDF checks, and deployment.
-
-The supplied CV text is preserved. LinkedIn, GitHub, and YouTube navigation links appear on the website, not in the PDF. Add any desired profile links to `cv.md` to include them in both versions.
-
-## PDF checks
-
-The PDF uses a single column, real selectable text, standard headings, clickable links, and accessibility tags. This supports ATS parsing but cannot guarantee compatibility with every ATS.
-
-Install Poppler, then run:
-
-```sh
-python3 scripts/check-pdf.py
-```
-
-The check verifies two pages, tagging, and complete text in source order. CI runs it before deployment. If the CV grows beyond two pages, revise the content or print layout. It will not silently shrink the text.
-
-The old Jekyll files remain in the repository for reference but are not built or published. Only files in `dist/` are deployed. Old blog URLs will no longer be served by this site.
+Set the repository's **Settings → Pages → Source** to **GitHub Actions**. Changes pushed to `master` update the website and PDF after the build and checks pass.
