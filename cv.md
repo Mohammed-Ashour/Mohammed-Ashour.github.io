@@ -4,6 +4,8 @@
 
 **Luxembourg, Luxembourg** | [m.aly.ashour@gmail.com](mailto:m.aly.ashour@gmail.com) | [blog.m-ashour.space](https://blog.m-ashour.space)
 
+[linkedin.com/in/malyashour](https://www.linkedin.com/in/malyashour) | [github.com/Mohammed-Ashour](https://github.com/Mohammed-Ashour)
+
 ---
 
 ## Professional Summary
@@ -18,12 +20,10 @@ Senior Software Engineer with **9+ years of experience** building data-intensive
 
 **Jul 2025 - Present**
 
-- Lead the architecture and development of data-processing systems for satellite imagery and Earth observation workloads, with a focus on reliability, scalability, and maintainability.
-- Design workflows across **data ingestion, normalization, pre-processing, scientific processing, quality control, reprocessing, aggregation, and delivery**.
-- Translate scientific and product requirements into technical designs, service boundaries, implementation plans, and engineering milestones while coordinating across Data Science, Software Engineering, and Product.
-- Design cloud-native distributed processing on **AWS** using **Airflow, Kubernetes, SQS, Postgres, and object storage**, including workload scaling, retries, failure isolation, and reprocessing.
-- Structure scientific models as reusable, versioned Python libraries with clear boundaries between model logic, orchestration, and infrastructure, improving testability and reuse.
-- Define observability and data-quality patterns using processing metadata, correlation identifiers, pipeline metrics, and lineage across processing stages.
+- Lead architecture and development of **satellite imagery processing pipelines**, from ingestion and scientific processing through quality control and delivery. Translate requirements from Data Science and Product into service boundaries and engineering milestones.
+- Design distributed processing on **AWS with Airflow, Kubernetes, SQS, and Postgres**, with workload scaling, retries, failure isolation, and reprocessing to support reliable pipeline operation.
+- Package scientific models as **versioned Python libraries**, separating model logic from orchestration and infrastructure to improve testability and reuse across workflows.
+- Define pipeline observability and data-quality checks using processing metadata, correlation identifiers, metrics, and lineage to trace data across processing stages.
 
 **Technologies:** Python, AWS, Airflow, Kubernetes, SQS, Postgres, Docker, Terraform/OpenTofu, GDAL, Rasterio
 
@@ -49,9 +49,11 @@ Senior Software Engineer with **9+ years of experience** building data-intensive
 
 **Technologies:** Python, NLP, Redis, Docker, Scrapy
 
-### Software Specialized Officer | Egypt Air Forces
+### Software Engineer | Egyptian Air Force
 
 **Oct 2018 - Oct 2020**
+
+Official military title: Software Specialized Officer
 
 - Developed and maintained internal software systems and database-backed applications for multiple departments.
 
@@ -83,12 +85,11 @@ Senior Software Engineer with **9+ years of experience** building data-intensive
 
 ## Technical Skills
 
-- **Languages:** Python, Go, SQL, JavaScript
-- **Data & Distributed Systems:** Apache Airflow, Postgres, Redis, DynamoDB, SQS, distributed processing, event-driven pipelines
-- **Cloud & Infrastructure:** AWS, Kubernetes, Docker, Terraform/OpenTofu, Infrastructure as Code
-- **CI/CD & Reliability:** Jenkins, GitHub Actions, Git, automated testing, observability, production operations
-- **ML & Scientific Computing:** Scikit-learn, NumPy, NLP, production ML systems, geospatial processing
-- **Engineering:** System design, APIs, microservices, data structures and algorithms, test-driven development
+- **Languages:** Python, Go, SQL
+- **Data & Distributed Systems:** Apache Airflow, Postgres, Redis, DynamoDB, SQS, event-driven pipelines
+- **Cloud & Infrastructure:** AWS, Kubernetes, Docker, Terraform/OpenTofu
+- **CI/CD & Reliability:** Jenkins, GitHub Actions, automated testing, observability
+- **ML & Geospatial Computing:** Scikit-learn, NumPy, GDAL, Rasterio, production ML systems
 
 ## Education
 
