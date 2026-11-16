@@ -104,6 +104,8 @@ async function settle(page) {
   throw new Error('Scrolling did not settle within 1500ms');
 }
 async function assertReading(page, id, label) {
+  // The page updates its reading state on the next animation frame; give a slow machine a moment before judging.
+  await page.waitForFunction(id => document.querySelector('.tab[aria-current]')?.dataset.id === id, id, { timeout: 1500 }).catch(() => {});
   const s = await page.evaluate(state);
   assert.equal(s.tab, id, `${label}: navigation should mark ${id}, got ${s.tab}`);
   assert(s.here.length > 0, `${label}: bar names the current role`);
