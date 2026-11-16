@@ -34,11 +34,12 @@ h1{font-size:44px;line-height:1.1;font-weight:400;letter-spacing:-.01em;margin:1
 .contact-icon{display:block;width:20px;height:20px;flex:none;image-rendering:pixelated}
 
 .system{width:min(840px,calc(100% - 40px));margin:24px auto 8px;position:relative}
+.orbit-scene{position:relative}
 .system ol{height:max(540px,30em);position:relative;margin:0;padding:0;list-style:none}
 .system li{position:absolute;transform:translate(-50%,-50%);width:110px;min-height:100px;display:flex}
-.earth{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:190px;pointer-events:none}
+.earth{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:260px;pointer-events:none;opacity:calc(1 - var(--world-blend,0) * .8)}
 .earth svg{display:block;width:100%;height:auto;image-rendering:pixelated}
-.orbit-toggle{position:absolute;left:50%;top:calc(50% + 100px);transform:translateX(-50%);min-width:64px;min-height:36px;border:0;padding:4px 8px;background:none;color:var(--muted);font:inherit;font-size:13px;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
+.orbit-toggle{display:block;margin:8px auto;min-width:64px;min-height:36px;border:0;padding:4px 8px;background:none;color:var(--muted);font:inherit;font-size:13px;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
 .orbit-toggle[hidden]{display:none}
 .tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;text-wrap:balance;text-align:center;padding:4px 2px 12px;color:var(--muted);text-decoration:none;font-size:14px;line-height:1.3;position:relative}
 .tab .nm{overflow-wrap:anywhere}
@@ -50,6 +51,17 @@ h1{font-size:44px;line-height:1.1;font-weight:400;letter-spacing:-.01em;margin:1
 .tab:hover .nm{text-decoration:underline;text-underline-offset:4px}
 .tab[aria-current] .nm{color:var(--acc)}
 .tab[aria-current]::after{content:"";position:absolute;left:50%;bottom:3px;width:6px;height:3px;margin-left:-3px;background:var(--acc)}
+
+/* The overview becomes a faint backdrop; only completed sections join its orbit. */
+.world-backdrop{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:var(--world-blend,0);overflow:hidden}
+.background-system{position:absolute;left:50%;top:54%;transform:translate(-50%,-50%);width:min(920px,100vw);height:min(700px,82vh)}
+.background-earth{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(440px,55vw);opacity:.075}
+.background-earth svg{display:block;width:100%;height:auto;image-rendering:pixelated}
+.collected-icon{position:absolute;transform:translate(-50%,-50%);width:40px;height:40px;opacity:0;transition:opacity .18s ease-out}
+.collected-icon.collected{opacity:.14}
+.collected-icon svg{display:block;width:100%;height:100%;image-rendering:pixelated}
+header,main,footer{position:relative;z-index:1}
+@media(prefers-reduced-motion:reduce){.collected-icon{transition:none}}
 
 /* Balanced columns: illustration and text each keep their own space. */
 .panel{width:min(1120px,calc(100% - 48px));margin:auto;padding:32px 0;display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr);gap:clamp(32px,4.5vw,64px);align-items:start}
@@ -70,7 +82,7 @@ h1{font-size:44px;line-height:1.1;font-weight:400;letter-spacing:-.01em;margin:1
 .text p{margin-top:0}
 footer{width:min(1120px,calc(100% - 40px));margin:auto;padding:24px 0 40px;color:var(--muted);font-size:15px;text-align:center}
 @media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
-@media(min-width:761px) and (max-width:1023px){.yr{font-size:12px}.wbox{height:56px;padding:0 4px}.icon{width:50px}}
+@media(min-width:761px) and (max-width:1023px){.earth{width:240px}.yr{font-size:12px}.wbox{height:56px;padding:0 4px}.icon{width:50px}}
 @media(max-width:760px){
   :root{font-size:16px}
   .now-inner{gap:8px}
@@ -80,8 +92,8 @@ footer{width:min(1120px,calc(100% - 40px));margin:auto;padding:24px 0 40px;color
   .system{margin-top:24px}
   .system ol{height:max(520px,32em)}
   .system li{width:52px;min-height:76px}
-  .earth{width:min(120px,30vw)}
-  .orbit-toggle{top:calc(50% + 70px);font-size:12px}
+  .earth{width:min(160px,40vw)}
+  .orbit-toggle{font-size:12px}
   .wbox{height:36px;padding:0}.icon{width:36px}
   .tab{font-size:12px;gap:4px;min-height:76px;padding:4px 0 10px}
   .tab .yr{display:none}
@@ -91,10 +103,14 @@ footer{width:min(1120px,calc(100% - 40px));margin:auto;padding:24px 0 40px;color
   .org{font-size:30px}
   .pts li{margin-bottom:12px}
 }
-@media print{.now,.system,.big{display:none}html,:root{background:#fff;color:#000}.panel{display:block;width:auto;padding:20px 0;min-height:0}.panel:last-child{min-height:0}}
+@media print{.now,.system,.big,.world-backdrop{display:none}html,:root{background:#fff;color:#000}.panel{display:block;width:auto;padding:20px 0;min-height:0}.panel:last-child{min-height:0}}
 </style>
 </head>
 <body>
+<div class="world-backdrop" aria-hidden="true"><div class="background-system">
+  <div class="background-earth">{{= earth() }}</div>
+{{= ITEMS.map((it, index) => `  <span class="collected-icon" data-role="${it.id}" style="${orbit(index)}">${icon(it.id)}</span>`).join('\n') }}
+</div></div>
 <a class="skip" href="#career">Skip to career</a>
 <div class="now" id="now"><div class="now-inner">
   <p class="here" id="here"></p>
@@ -107,10 +123,12 @@ footer{width:min(1120px,calc(100% - 40px));margin:auto;padding:24px 0 40px;color
 </header>
 <main id="career">
   <nav class="system" aria-label="Career">
+    <div class="orbit-scene">
     <div class="earth">{{= earth() }}</div>
     <ol>
 {{= ITEMS.map((it, index) => `    <li style="${orbit(index)}"><a class="tab" href="#${it.id}" data-id="${it.id}"><span class="wbox">${icon(it.id)}</span><span class="nm">${ESC(it.name)}</span><span class="yr">${ESC(it.years)}</span></a></li>`).join('\n') }}
     </ol>
+    </div>
     <button class="orbit-toggle" type="button" aria-label="Pause orbit animation" aria-pressed="false" hidden>Pause</button>
   </nav>
 {{= ITEMS.map(it => `  <section class="panel" id="${it.id}" aria-labelledby="d-${it.id}-h">
@@ -126,7 +144,27 @@ footer{width:min(1120px,calc(100% - 40px));margin:auto;padding:24px 0 40px;color
   const plain = [...document.querySelectorAll('#plain, .plain-foot')];
   const now = document.getElementById('now'), here = document.getElementById('here');
   const label = Object.fromEntries(marks.map(t => [t.dataset.id, [t.querySelector('.nm').textContent, t.querySelector('.yr').textContent]]));
-  let current, queued = false;
+  const backdrop = document.querySelector('.world-backdrop');
+  const collected = [...backdrop.querySelectorAll('.collected-icon')];
+  const passed = new Set();
+  let current, queued = false, backgroundAngle = 0;
+  function updateBackdrop() {
+    const end = system.querySelector('.orbit-scene').getBoundingClientRect().bottom;
+    const blend = Math.max(0, Math.min(1, (innerHeight * .55 - end) / (innerHeight * .55)));
+    system.style.setProperty('--world-blend', blend.toFixed(3));
+    backdrop.style.setProperty('--world-blend', blend.toFixed(3));
+    const atEnd = scrollY + innerHeight >= document.documentElement.scrollHeight - 4;
+    sections.forEach(section => {
+      if (atEnd || section.querySelector('.text').getBoundingClientRect().bottom <= innerHeight * .35) passed.add(section.id);
+    });
+    if (!paused && !reduced.matches) backgroundAngle = scrollY * .025;
+    collected.forEach((item, index) => {
+      item.classList.toggle('collected', passed.has(item.dataset.role));
+      const angle = (-90 + index * 40 + backgroundAngle) * Math.PI / 180;
+      item.style.left = `${50 + 37 * Math.cos(angle)}%`;
+      item.style.top = `${50 + 37 * Math.sin(angle)}%`;
+    });
+  }
   function update(syncURL) {
     queued = false;
     let id = null;
@@ -134,6 +172,7 @@ footer{width:min(1120px,calc(100% - 40px));margin:auto;padding:24px 0 40px;color
     if (syncURL && location.hash !== (id ? '#' + id : '')) {
       history.replaceState(null, '', id ? '#' + id : location.pathname + location.search);
     }
+    updateBackdrop();
     if (id === current) return;
     current = id;
     marks.forEach(a => a.dataset.id === id ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current'));
@@ -147,7 +186,6 @@ footer{width:min(1120px,calc(100% - 40px));margin:auto;padding:24px 0 40px;color
   }
   addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(() => update(true)); } }, { passive: true });
   addEventListener('resize', () => update(true));
-  update(false);
 
   // Native motion keeps labels upright. Stop it while a person aims, reads or navigates by keyboard.
   const system = document.querySelector('.system');
@@ -179,6 +217,7 @@ footer{width:min(1120px,calc(100% - 40px));margin:auto;padding:24px 0 40px;color
     toggle.textContent = paused ? 'Resume' : 'Pause';
     toggle.setAttribute('aria-pressed', String(paused));
     toggle.setAttribute('aria-label', paused ? 'Resume orbit animation' : 'Pause orbit animation');
+    update(false);
     syncOrbit();
   });
   system.addEventListener('pointerenter', syncOrbit);
@@ -186,11 +225,12 @@ footer{width:min(1120px,calc(100% - 40px));margin:auto;padding:24px 0 40px;color
   system.addEventListener('focusin', syncOrbit);
   system.addEventListener('focusout', () => queueMicrotask(syncOrbit));
   document.addEventListener('visibilitychange', syncOrbit);
-  reduced.addEventListener('change', prepareOrbit);
+  reduced.addEventListener('change', () => { prepareOrbit(); update(false); });
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(entries => { visible = entries[0].isIntersecting; syncOrbit(); }).observe(system);
   }
   prepareOrbit();
+  update(false);
 })();
 </script>
 </body>

@@ -24,10 +24,13 @@ function headerLayout() {
     return { id: t.dataset.id, r, nmTop: t.querySelector('.nm').getBoundingClientRect().top, inside: [...t.querySelectorAll('.wbox,.nm,.yr')].every(c => { const b = c.getBoundingClientRect(); return !b.width || b.left >= r.left - 1 && b.right <= r.right + 1; }) };
   });
   const earth = document.querySelector('.earth').getBoundingClientRect();
+  const svg = document.querySelector('.earth svg'), paint = svg.getBBox(), view = svg.viewBox.baseVal;
+  const scale = earth.width / view.width;
+  const earthPaint = new DOMRect(earth.left + (paint.x - view.x) * scale, earth.top + (paint.y - view.y) * scale, paint.width * scale, paint.height * scale);
   const orbit = document.querySelector('.system ol').getBoundingClientRect();
   return {
     earthCentered: Math.abs((earth.left + earth.right - orbit.left - orbit.right) / 2) <= 1 && Math.abs((earth.top + earth.bottom - orbit.top - orbit.bottom) / 2) <= 1,
-    orbitClear: tabs.every(t => !hit(t.r, earth)),
+    orbitClear: tabs.every(t => !hit(t.r, earthPaint)),
     plainCovers: glyphs.some(g => hit(g, plain) || hit(g, bar)),
     nameClear: document.querySelector('h1').getBoundingClientRect().top >= bar.bottom,
     outside: tabs.filter(t => !t.inside).map(t => t.id),
@@ -173,7 +176,9 @@ function orbitLayout() {
   for (let step = 0; step < 72; step++) {
     animations.forEach(animation => { animation.currentTime = step * 2500; });
     const boxes = items.map(item => item.getBoundingClientRect());
-    const earth = document.querySelector('.earth').getBoundingClientRect();
+    const svg = document.querySelector('.earth svg'), bounds = svg.getBoundingClientRect(), paint = svg.getBBox(), view = svg.viewBox.baseVal;
+    const scale = bounds.width / view.width;
+    const earth = new DOMRect(bounds.left + (paint.x - view.x) * scale, bounds.top + (paint.y - view.y) * scale, paint.width * scale, paint.height * scale);
     const toggle = document.querySelector('.orbit-toggle').getBoundingClientRect();
     boxes.forEach((box, index) => {
       boxes.slice(index + 1).forEach((other, offset) => { if (hit(box, other)) issues.push(`${step}:${index}/${index + offset + 1}`); });
@@ -220,6 +225,8 @@ try {
     assert.deepEqual(await page.locator('.system .tab').evaluateAll(a => a.map(e => e.getAttribute('href'))), IDS.map(id => '#' + id), `${label}: navigation links are anchors`);
     assertHeader(await page.evaluate(headerLayout), label, { maxBar: 60 });
     assert.deepEqual(await page.evaluate(state), { tab: null, here: '', plain: ['plain.html', 'plain.html'], hash: '' }, `${label}: nothing is marked before the first role`);
+    assert.equal(await page.locator('.world-backdrop').getAttribute('aria-hidden'), 'true', 'Background is decorative, not duplicate navigation');
+    assert.equal(await page.locator('.world-backdrop').evaluate(e => getComputedStyle(e).opacity), '0', 'Background stays out of the introduction');
     await assertInFlow(page, label);
 
     // Scrolling alone moves the indicator, the address and the Plain CV target; Plain CV returns to the same role.
@@ -227,6 +234,8 @@ try {
       await scrollToRole(page, id);
       const s = await assertReading(page, id, `${label}/${id} scrolled`);
       assert.equal(s.hash, '#' + id, `${label}/${id}: address follows reading`);
+      const gathered = await page.locator('.collected-icon.collected').evaluateAll(items => items.map(item => item.dataset.role));
+      for (const previous of IDS.slice(0, IDS.indexOf(id))) assert(gathered.includes(previous), `${label}/${id}: completed ${previous} joins the background orbit`);
       assertSection(await page.evaluate(sectionLayout, id), `${label}/${id}`, width, { mobile });
       if (width >= 1024 && ['elements', 'school'].includes(id)) {
         assert(await page.locator(`#d-${id}-h`).evaluate(h => h.getBoundingClientRect().height <= parseFloat(getComputedStyle(h).lineHeight) + 1), `${label}/${id}: desktop heading should fit on one line`);

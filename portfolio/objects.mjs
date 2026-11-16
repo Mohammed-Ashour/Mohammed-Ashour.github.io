@@ -395,26 +395,32 @@ export function scene(id) {
   SCENES[id](g);
   return `<svg class="px scene s-${id}" viewBox="0 0 100 100" shape-rendering="crispEdges" aria-hidden="true" focusable="false">${g.svg()}</svg>`;
 }
-// Static Earth for the role-navigation overview, drawn on the same pixel lattice.
+// The Downlink-style Earth: textured surface, atmospheric edge, ground dish and processing symbols.
 export function earth() {
-  const g = new Grid(64, 64, [32, 32, 28]);
-  g.ell(32, 32, 28, 28, (x, y) => (x + y) % 11 === 0 ? 'S' : 's');
-  const land = (x, y) => vnoise(x / 4, y / 4, 21) > .55 ? 'L' : 'l';
-  for (const points of [
-    [[8, 18], [18, 10], [29, 12], [29, 19], [23, 26], [16, 24], [13, 20]],
-    [[23, 27], [31, 31], [32, 36], [26, 49], [22, 43], [20, 33]],
-    [[36, 17], [43, 13], [49, 17], [44, 24], [37, 23]],
-    [[37, 25], [44, 23], [49, 29], [44, 41], [39, 38], [35, 30]],
-    [[44, 13], [55, 16], [59, 25], [54, 31], [48, 27], [44, 22]],
-    [[49, 43], [56, 42], [59, 47], [52, 50]],
-  ]) g.poly(points, land);
-  g.ell(31, 7, 12, 4, 'i');
-  g.ell(31, 59, 13, 3, 'I');
-  // A restrained night-side edge gives the globe depth without a framing ring.
-  for (let y = 0; y < 64; y++) for (let x = 48; x < 64; x++) {
-    if (g.m.has(y * 64 + x) && (x > 55 || (x + y) % 2 === 0)) g.set(x, y, 'n');
+  const g = new Grid(100, 100), cx = 50, cy = 57, radius = 37;
+  g.ell(cx, cy, radius + 1, radius + 1, 'h');
+  g.ell(cx, cy, radius, radius, (x, y) => {
+    const dx = x - cx, dy = y - cy;
+    const n = hash(Math.floor(dx / 5), Math.floor(dy / 4), 0);
+    let color = (dx + dy) % 5 === 0 ? 'S' : 's';
+    if (n > .7) color = n > .86 ? 'L' : 'l';
+    if (dy < -radius * .72) color = 'i';
+    const shade = (dx + dy * .6) / radius;
+    if (shade > .8 || shade > .55 && (x + y) % 2 === 0) color = 'n';
+    return color;
+  });
+  // A small ground station and four data-processing steps sit on the northern limb.
+  g.sprite(['w.....w', '.w...w.', '..www..', '...w...', '..www..'], 31, 13);
+  g.rect(34, 18, 1, 6, 'w');
+  for (const x of [45, 57, 69, 81]) {
+    g.rect(x, 11, 9, 9, 'k'); g.box(x, 11, 9, 9, 'w');
   }
-  return `<svg class="px earth-art" viewBox="0 0 64 64" shape-rendering="crispEdges" aria-hidden="true" focusable="false">${g.svg()}</svg>`;
+  g.rect(48, 14, 3, 3, 'g');
+  g.line(60, 15, 63, 15, 'w'); g.line(62, 13, 62, 17, 'w');
+  g.line(71, 15, 73, 17, 'e'); g.line(73, 17, 76, 13, 'e');
+  g.line(84, 15, 87, 15, 'a'); g.line(85, 13, 87, 15, 'a'); g.line(85, 17, 87, 15, 'a');
+  for (const x of [54, 66, 78]) g.rect(x, 15, 3, 1, 'g');
+  return `<svg class="px earth-art" viewBox="0 0 100 100" shape-rendering="crispEdges" aria-hidden="true" focusable="false">${g.svg()}</svg>`;
 }
 
 // Small, locally drawn contact symbols in the same pixel palette as the role objects.
