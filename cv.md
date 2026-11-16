@@ -1,6 +1,6 @@
 # Mohamed Ashour
 
-**Senior Software Engineer | Data-Intensive Systems, Cloud & ML Infrastructure**
+**Senior Software Engineer | Data-Intensive Systems, Satellite Data Pipelines & ML Infrastructure**
 
 **Luxembourg, Luxembourg** | [m.aly.ashour@gmail.com](mailto:m.aly.ashour@gmail.com) | [blog.m-ashour.space](https://blog.m-ashour.space)
 
@@ -10,7 +10,7 @@
 
 ## Professional Summary
 
-Senior Software Engineer with **10+ years of experience** building data-intensive systems, distributed processing pipelines, cloud infrastructure, and ML-enabled applications. Experienced in architecting systems for satellite and Earth observation data, real-time processing, and scientific workloads, and in translating scientific and product requirements into reliable production software. Strong background in **Python, Go, AWS, Kubernetes, Airflow, Postgres, and Infrastructure as Code**.
+Senior Software Engineer with **10+ years of experience** building data-intensive systems, including **nearly 5 years** of satellite and Earth observation data pipelines, alongside cloud infrastructure and ML-enabled applications. Experienced in distributed and real-time processing and scientific workloads, and in translating scientific and product requirements into reliable production software. Strong background in **Python, Go, AWS, Kubernetes, Airflow, Postgres, and Infrastructure as Code**.
 
 ---
 
