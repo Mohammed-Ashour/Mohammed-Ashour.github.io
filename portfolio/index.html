@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#141c38">
+<meta name="description" content="Mohamed Ashour, senior software engineer building data-intensive systems, cloud infrastructure and ML-enabled applications.">
+<title>Mohamed Ashour | Software engineer</title>
+<style>
+:root{
+  --bg:#141c38;--text:#efe8d8;--muted:#aab1c7;--acc:#f1b24a;--line:#3a4677;
+  --px-orbit:#4a5688;
+  font:17px/1.6 "Iowan Old Style","Palatino Linotype",Palatino,"P052","URW Palladio L",Georgia,serif;
+  color:var(--text);background:var(--bg)
+}
+{{= ART_CSS }}
+*{box-sizing:border-box}
+html,body{margin:0}
+/* Anchor jumps, focus scrolling and Page Down all leave room for the sticky bar. */
+html{scroll-padding-top:4rem}
+body{overflow-x:clip}
+a{color:var(--acc);text-underline-offset:3px;text-decoration-thickness:1px}
+a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:3px solid var(--acc);outline-offset:4px}
+.skip{position:absolute;left:20px;top:-100px;background:var(--bg);z-index:6;padding:10px}.skip:focus{top:10px}
+.text p,.text li,.text h3,.links a,h1,.org{overflow-wrap:anywhere}
+
+/* A slim bar that stays put: where you are, a strip of shortcuts, and the plain CV. */
+.now{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:14px;min-height:46px;padding:4px clamp(20px,5vw,72px);background:var(--bg);font-size:16px;line-height:1.4;border-bottom:1px dotted transparent}
+.now.on{border-bottom-color:var(--line)}
+/* Until a role is reached (or without JavaScript) the table of contents below does this job. */
+.now:not(.on) .strip{visibility:hidden}
+.strip{display:flex;gap:2px;flex:none}
+.strip a{display:flex;align-items:center;justify-content:center;width:34px;height:36px;opacity:.42;position:relative}
+.strip a:hover{opacity:.8}
+.strip a[aria-current]{opacity:1}
+.strip a[aria-current]::after{content:"";position:absolute;left:50%;bottom:0;width:6px;height:2px;margin-left:-3px;background:var(--acc)}
+.strip svg{width:28px;height:28px;image-rendering:pixelated}
+.here{flex:1;min-width:0;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.here .yr{color:var(--muted);font-size:14px;margin-left:.6em}
+.plain{flex:none;margin-left:auto;padding:6px 0 6px 6px;font-weight:600}
+
+header{padding:6px clamp(20px,5vw,72px) 0;max-width:1180px}
+h1{font-size:44px;line-height:1.05;font-weight:400;letter-spacing:-.01em;margin:18px 0 16px}
+.lead{max-width:40rem;margin:0 0 10px;color:var(--text)}
+.links{display:flex;flex-wrap:wrap;gap:.2rem 1.3rem;margin:0;font-size:16px}
+
+/* The row of objects is a table of contents; every role below is always on the page. */
+.system{margin:38px clamp(20px,5vw,72px) 0;max-width:1180px;border-bottom:1px dotted var(--line)}
+.system ol{display:flex;flex-wrap:wrap;align-items:stretch;justify-content:space-between;gap:6px;margin:0;padding:0;list-style:none}
+.system li{flex:1 1 0;display:flex}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:6px;text-wrap:balance;text-align:center;padding:8px 2px 12px;color:var(--muted);text-decoration:none;font-size:15px;line-height:1.25;position:relative}
+.wbox{flex:none;height:72px;max-width:100%;display:flex;align-items:flex-end;justify-content:center;position:relative;padding:0 8px}
+.icon{width:70px;max-width:100%;height:auto;image-rendering:pixelated}
+.nm{color:var(--text)}
+.yr{font-size:13px;font-variant-numeric:tabular-nums}
+.tab:hover .nm{text-decoration:underline;text-underline-offset:4px}
+.tab[aria-current] .nm{color:var(--acc)}
+.tab[aria-current]::after{content:"";position:absolute;left:50%;bottom:-4px;width:8px;height:8px;margin-left:-4px;background:var(--acc)}
+.tab[aria-current] .wbox::before,.tab[aria-current] .wbox::after{content:"";position:absolute;width:10px;height:10px;border:2px solid var(--acc)}
+.tab[aria-current] .wbox::before{left:0;top:2px;border-right:0;border-bottom:0}
+.tab[aria-current] .wbox::after{right:0;bottom:2px;border-left:0;border-top:0}
+
+/* Each role's scene, pushed a little off the left edge. Its dotted ring is the wrap shape. */
+.panel{display:flow-root;position:relative;padding:34px clamp(20px,5vw,72px) 48px 0;max-width:1320px;min-height:calc(var(--big) * .9)}
+.panel{--big:min(600px,48vw)}
+/* Room for the last role to reach the top of the window, so its link and the bar agree. */
+.panel:last-child{min-height:calc(100vh - 4rem)}
+.big{float:left;width:var(--big);aspect-ratio:1;margin:0 0 0 calc(var(--big) * -.18);shape-outside:circle(47% at 50% 50%) border-box;shape-margin:20px}
+.big svg{display:block;width:100%;height:100%;image-rendering:pixelated}
+/* The left padding stops lines below the circle from returning to the page edge; the curve still shapes lines beside it. */
+.text{padding:calc(var(--big) * .08) 0 0 max(clamp(20px,5vw,72px),calc(var(--big) * .55))}
+.panel .text>*{max-width:calc(var(--big) * .24 + 20px + 26rem)}
+.org{font-size:40px;line-height:1.1;font-weight:400;margin:0 0 6px}
+.text h3{font-size:19px;font-weight:400;font-style:italic;margin:0 0 4px}
+.meta{margin:0 0 6px}
+.meta .title{display:block;font-style:italic}
+.meta .when{display:block;color:var(--muted);font-variant-numeric:tabular-nums;font-size:16px}
+.note{margin:0 0 6px;color:var(--muted);font-size:16px}
+.pts{list-style:none;margin:0 0 12px;padding:0;max-width:46rem}
+.pts li{margin:0 0 10px}
+.pts li::before{content:"";display:inline-block;width:7px;height:7px;background:var(--acc);margin:0 10px 2px 0}
+.tech{color:var(--muted);font-size:15px;max-width:46rem;margin:0}
+footer{padding:0 clamp(20px,5vw,72px) 40px;color:var(--muted);font-size:15px}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+@media (min-width:761px) and (max-width:1023px){
+  .system ol{gap:2px}
+  .tab{font-size:14px}
+  .yr{font-size:12px}
+  .wbox{height:60px;padding:0 5px}
+  .icon{width:54px}
+}
+@media (max-width:760px){
+  :root{font-size:16px}
+  .now{gap:8px}
+  /* On phones the bar shows only the current object. */
+  .strip a:not([aria-current]){display:none}
+  h1{font-size:clamp(26px,7.7vw,36px)}
+  .system{margin-top:26px}
+  .system ol{display:grid;grid-template-columns:repeat(auto-fill,minmax(max(30%,5.6em),1fr));gap:0}
+  .wbox{height:56px}
+  .icon{width:50px}
+  .tab{font-size:14px;padding:6px 0 10px;min-height:44px}
+  .tab[aria-current]::after{bottom:0}
+  .panel{--big:min(280px,78vw);padding:30px 20px 40px;min-height:0}
+  .panel:last-child{min-height:calc(100vh - 4rem)}
+  .big{float:none;margin:0 0 4px -8px;shape-outside:none}
+  .text{padding:0}
+  .panel .text>*{max-width:36rem}
+  .org{font-size:30px}
+  .pts li{margin-bottom:8px}
+}
+@media print{.now,.system,.big{display:none}html,:root{background:#fff;color:#000}}
+</style>
+</head>
+<body>
+<a class="skip" href="#career">Skip to career</a>
+<div class="now" id="now">
+  <div class="strip" aria-hidden="true">
+{{= ITEMS.map(it => `    <a href="#${it.id}" data-id="${it.id}" tabindex="-1" title="${ESC(it.name)}">${icon(it.id)}</a>`).join('\n') }}
+  </div>
+  <p class="here" id="here"></p>
+  <a class="plain" id="plain" href="plain.html">Plain CV</a>
+</div>
+<header>
+  <h1>Mohamed Ashour</h1>
+  <p class="lead">{{= ESC(lead) }}</p>
+  {{= links() }}
+</header>
+<main id="career">
+  <nav class="system" aria-label="Career">
+    <ol>
+{{= ITEMS.map(it => `      <li><a class="tab" href="#${it.id}" data-id="${it.id}"><span class="wbox">${icon(it.id)}</span><span class="nm">${ESC(it.name)}</span><span class="yr">${ESC(it.years)}</span></a></li>`).join('\n') }}
+    </ol>
+  </nav>
+{{= ITEMS.map(it => `  <section class="panel" id="${it.id}" aria-labelledby="d-${it.id}-h">
+    <div class="big">${scene(it.id)}</div>
+    <div class="text">${details(it.id)}</div>
+  </section>`).join('\n') }}
+</main>
+<footer><a href="plain.html" class="plain-foot">Read the plain CV</a> · <a href="Mohamed-Ashour-CV.pdf" download>Download PDF</a></footer>
+<script>
+(() => {
+  // The role whose top has passed 35% of the window is the one being read.
+  const sections = [...document.querySelectorAll('main > section[id]')];
+  const marks = [...document.querySelectorAll('.tab, .strip a')];
+  const plain = [...document.querySelectorAll('#plain, .plain-foot')];
+  const now = document.getElementById('now'), here = document.getElementById('here');
+  const label = Object.fromEntries([...document.querySelectorAll('.tab')].map(t => [t.dataset.id, [t.querySelector('.nm').textContent, t.querySelector('.yr').textContent]]));
+  let current, queued = false;
+  function update(fromScroll) {
+    queued = false;
+    let id = null;
+    for (const s of sections) if (s.getBoundingClientRect().top <= innerHeight * .35) id = s.id;
+    if (id === current) return;
+    current = id;
+    marks.forEach(a => a.dataset.id === id ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current'));
+    now.classList.toggle('on', !!id);
+    here.replaceChildren();
+    if (id) {
+      const yr = document.createElement('span'); yr.className = 'yr'; yr.textContent = label[id][1];
+      here.append(label[id][0], yr);
+    }
+    plain.forEach(a => { a.href = id ? `plain.html?at=${id}` : 'plain.html'; });
+    // Only rewrite the address after the reader has scrolled, so an incoming #role link is never lost.
+    if (fromScroll) history.replaceState(null, '', id ? '#' + id : location.pathname + location.search);
+  }
+  addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(() => update(true)); } }, { passive: true });
+  addEventListener('resize', () => update(false));
+  update(false);
+})();
+</script>
+</body>
+</html>

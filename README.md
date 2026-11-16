@@ -1,31 +1,36 @@
 # Mohamed Ashour's CV
 
-A personal website showing my CV with a PDF download and links to LinkedIn, GitHub, and YouTube.
+A static software-engineering portfolio with role-specific pixel illustrations, a plain CV mode and a downloadable PDF.
 
-## Files
+## Content and presentation
 
-- `cv.md` holds the CV text. Both the website and PDF use this file.
-- `index.html` defines the page and profile links.
-- `cv.css` controls the screen layout and A4 print layout.
-- `scripts/build.mjs` converts Markdown to HTML with Marked, then creates the PDF with Playwright and Chromium. It writes the website and PDF to `dist/`.
-- `scripts/check-pdf.py` checks that the PDF has two pages, accessibility tags, and all CV text in the correct order. It uses Poppler's `pdfinfo` and `pdftotext` commands.
-- `.github/workflows/deploy.yml` builds and checks changes, then publishes `dist/` to GitHub Pages on pushes to `master`.
+- `cv.md` is the professional-content source for the portfolio, plain CV and PDF.
+- `portfolio/index.html`, `portfolio/objects.mjs` and `portfolio/palette.css` define the interactive homepage. Its role illustrations are decorative, with no personal avatar; every role has ordinary HTML details.
+- `index.html` is the plain CV template. `cv.css` controls its screen and A4 print layout.
+- `scripts/build-portfolio.mjs` maps the CV's existing headings to role sections and renders canonical Markdown details. If roles or required headings change, update its explicit mapping; the build fails rather than dropping roles silently.
+- `scripts/build.mjs` generates `dist/index.html`, `dist/plain.html`, the source Markdown, styles and `Mohamed-Ashour-CV.pdf`.
 
-The website needs no browser JavaScript. The PDF contains selectable text, not screenshots. The `<!-- page-break -->` marker in `cv.md` sets where the second PDF page starts.
+All nine sections are always readable by scrolling. The current-role bar and Plain CV return link follow the section being read. The icon row provides optional anchor shortcuts; normal keyboard scrolling and native deep links work too. With JavaScript disabled, all details and anchor links remain usable. Reduced-motion preferences disable smooth scrolling.
 
-Old Jekyll files remain in the repository but are not built or published.
+The PDF is printed from the plain CV, not the illustrated homepage. It contains selectable, tagged text. The `<!-- page-break -->` marker in `cv.md` sets the second page's start.
 
-## Run locally
+## Run and verify
 
 ```sh
 npm ci
 npx playwright install chromium
 npm run build
+npm test
+python3 scripts/check-pdf.py
 python3 -m http.server 8000 --directory dist
 ```
 
-Open http://localhost:8000. After editing `cv.md`, run the build again. To check the PDF with Poppler installed, run `python3 scripts/check-pdf.py`.
+Open http://localhost:8000. `npm test` checks canonical content, all nine sections, scroll-driven reading state, plain-mode round trips, anchor/deep links, keyboard scrolling and no-JavaScript access at 320, 390, 768, 820, 1024 and 1440px. It also checks layout geometry: no horizontal overflow, no squeezed text lines, navigation labels inside their columns, the Plain CV link clear of header text, and on mobile the illustration above its text. Two of those widths are repeated with text at 200%. Short windows and native Page Down are also covered. Scroll waits run in Node with explicit bounds, so the JavaScript-disabled check cannot hang on browser timers. For a local Firefox pass, install its Playwright binary and use `BROWSER=firefox npm test`. The PDF check needs Poppler's `pdfinfo` and `pdftotext`.
 
 ## Publishing
 
-Set the repository's **Settings → Pages → Source** to **GitHub Actions**. Changes pushed to `master` update the website and PDF after the build and checks pass.
+GitHub Actions builds and checks pull requests without deploying them. Pushes to `master` publish the generated `dist/` artifact through GitHub Pages, using the existing workflow. Set **Settings → Pages → Source** to **GitHub Actions**.
+
+The homepage is `/`; the plain CV is `/plain.html`; the existing `/Mohamed-Ashour-CV.pdf` download URL is unchanged. No backend or additional runtime dependencies are required.
+
+Old Jekyll files remain but are not built. Experimental prototypes are not needed by the production build and are not published.

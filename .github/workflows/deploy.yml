@@ -24,6 +24,7 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run build
+      - run: npm test
       - name: Check PDF pages and text
         run: |
           sudo apt-get update && sudo apt-get install -y poppler-utils

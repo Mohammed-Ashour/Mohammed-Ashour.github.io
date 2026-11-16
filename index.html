@@ -11,6 +11,7 @@
   <a class="skip-link" href="#cv">Skip to CV</a>
   <header class="toolbar">
     <nav aria-label="Profile links">
+      <a id="portfolio-back" href="index.html">Back to portfolio</a>
       <a href="https://www.linkedin.com/in/malyashour">LinkedIn</a>
       <a href="https://github.com/Mohammed-Ashour">GitHub</a>
       <a href="https://www.youtube.com/@mohammedashour1994">YouTube</a>
@@ -20,5 +21,10 @@
   <main id="cv" class="a4-page">
     <!-- CV_CONTENT -->
   </main>
+  <script>
+    const at = new URLSearchParams(location.search).get('at');
+    const roles = ['hydrosat', 'spire', 'yaoota', 'eaf', 'elements', 'freelance', 'codescalers', 'toolkit', 'school'];
+    if (roles.includes(at)) document.getElementById('portfolio-back').hash = at;
+  </script>
 </body>
 </html>

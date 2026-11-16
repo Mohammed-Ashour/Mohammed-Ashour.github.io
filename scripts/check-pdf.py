@@ -35,7 +35,7 @@ assert re.search(r'Pages:\s+2\b', info), 'CV must fit on two pages. Adjust print
 assert re.search(r'Tagged:\s+yes', info), 'PDF must be tagged.'
 text = subprocess.check_output(['pdftotext', '-raw', pdf, '-'], text=True)
 parser = CVText()
-parser.feed(Path('dist/index.html').read_text())
+parser.feed(Path('dist/plain.html').read_text())
 normalize = lambda value: re.sub(r'[^a-z0-9]', '', value.lower())
 assert normalize(''.join(parser.text)) == normalize(text), 'PDF text differs from the CV or has incorrect reading order.'
 assert 'Download PDF' not in text, 'Website toolbar leaked into PDF.'
