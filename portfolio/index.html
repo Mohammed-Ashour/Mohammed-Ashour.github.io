@@ -7,121 +7,99 @@
 <meta name="description" content="Mohamed Ashour, senior software engineer building data-intensive systems, cloud infrastructure and ML-enabled applications.">
 <title>Mohamed Ashour | Software engineer</title>
 <style>
-:root{
-  --bg:#141c38;--text:#efe8d8;--muted:#aab1c7;--acc:#f1b24a;--line:#3a4677;
-  --px-orbit:#4a5688;
-  font:17px/1.6 "Iowan Old Style","Palatino Linotype",Palatino,"P052","URW Palladio L",Georgia,serif;
-  color:var(--text);background:var(--bg)
-}
+:root{--bg:#141c38;--text:#efe8d8;--muted:#aab1c7;--acc:#f1b24a;--line:#3a4677;font:17px/1.6 "Iowan Old Style","Palatino Linotype",Palatino,"P052","URW Palladio L",Georgia,serif;color:var(--text);background:var(--bg)}
 {{= ART_CSS }}
 *{box-sizing:border-box}
 html,body{margin:0}
-/* Anchor jumps, focus scrolling and Page Down all leave room for the sticky bar. */
-html{scroll-padding-top:4rem}
-body{overflow-x:clip}
+html{scroll-padding-top:4.5rem}
 a{color:var(--acc);text-underline-offset:3px;text-decoration-thickness:1px}
 a:hover{text-decoration-thickness:2px}
 :focus-visible{outline:3px solid var(--acc);outline-offset:4px}
 .skip{position:absolute;left:20px;top:-100px;background:var(--bg);z-index:6;padding:10px}.skip:focus{top:10px}
 .text p,.text li,.text h3,.links a,h1,.org{overflow-wrap:anywhere}
 
-/* A slim bar that stays put: where you are, a strip of shortcuts, and the plain CV. */
-.now{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:14px;min-height:46px;padding:4px clamp(20px,5vw,72px);background:var(--bg);font-size:16px;line-height:1.4;border-bottom:1px dotted transparent}
+/* One centered reading label, not a second row of navigation. */
+.now{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid transparent;font-size:16px;line-height:1.4}
 .now.on{border-bottom-color:var(--line)}
-/* Until a role is reached (or without JavaScript) the table of contents below does this job. */
-.now:not(.on) .strip{visibility:hidden}
-.strip{display:flex;gap:2px;flex:none}
-.strip a{display:flex;align-items:center;justify-content:center;width:34px;height:36px;opacity:.42;position:relative}
-.strip a:hover{opacity:.8}
-.strip a[aria-current]{opacity:1}
-.strip a[aria-current]::after{content:"";position:absolute;left:50%;bottom:0;width:6px;height:2px;margin-left:-3px;background:var(--acc)}
-.strip svg{width:28px;height:28px;image-rendering:pixelated}
-.here{flex:1;min-width:0;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.now-inner{width:min(1120px,calc(100% - 40px));min-height:48px;margin:auto;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:12px;padding:4px 0}
+.here{grid-column:2;max-width:44vw;min-width:0;margin:0;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .here .yr{color:var(--muted);font-size:14px;margin-left:.6em}
-.plain{flex:none;margin-left:auto;padding:6px 0 6px 6px;font-weight:600}
+.plain{grid-column:3;justify-self:end;max-width:100%;padding:4px 0;font-weight:600;text-align:right}
 
-header{padding:6px clamp(20px,5vw,72px) 0;max-width:1180px}
-h1{font-size:44px;line-height:1.05;font-weight:400;letter-spacing:-.01em;margin:18px 0 16px}
-.lead{max-width:40rem;margin:0 0 10px;color:var(--text)}
-.links{display:flex;flex-wrap:wrap;gap:.2rem 1.3rem;margin:0;font-size:16px}
+header{width:min(760px,calc(100% - 40px));margin:28px auto 0;text-align:center}
+h1{font-size:44px;line-height:1.1;font-weight:400;letter-spacing:-.01em;margin:16px 0 18px}
+.lead{margin:0 auto 16px;max-width:40rem}
+.links{display:flex;justify-content:center;flex-wrap:wrap;gap:.5rem 1.5rem;margin:0;font-size:16px}
+.links a{display:inline-flex;align-items:center;gap:8px;min-height:32px}
+.contact-icon{display:block;width:20px;height:20px;flex:none;image-rendering:pixelated}
 
-/* The row of objects is a table of contents; every role below is always on the page. */
-.system{margin:38px clamp(20px,5vw,72px) 0;max-width:1180px;border-bottom:1px dotted var(--line)}
-.system ol{display:flex;flex-wrap:wrap;align-items:stretch;justify-content:space-between;gap:6px;margin:0;padding:0;list-style:none}
-.system li{flex:1 1 0;display:flex}
-.tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:6px;text-wrap:balance;text-align:center;padding:8px 2px 12px;color:var(--muted);text-decoration:none;font-size:15px;line-height:1.25;position:relative}
-.wbox{flex:none;height:72px;max-width:100%;display:flex;align-items:flex-end;justify-content:center;position:relative;padding:0 8px}
-.icon{width:70px;max-width:100%;height:auto;image-rendering:pixelated}
+.system{width:min(840px,calc(100% - 40px));margin:24px auto 8px;position:relative}
+.system ol{height:max(540px,30em);position:relative;margin:0;padding:0;list-style:none}
+.system li{position:absolute;transform:translate(-50%,-50%);width:110px;min-height:100px;display:flex}
+.earth{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:190px;pointer-events:none}
+.earth svg{display:block;width:100%;height:auto;image-rendering:pixelated}
+.orbit-toggle{position:absolute;left:50%;top:calc(50% + 100px);transform:translateX(-50%);min-width:64px;min-height:36px;border:0;padding:4px 8px;background:none;color:var(--muted);font:inherit;font-size:13px;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
+.orbit-toggle[hidden]{display:none}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;text-wrap:balance;text-align:center;padding:4px 2px 12px;color:var(--muted);text-decoration:none;font-size:14px;line-height:1.3;position:relative}
+.tab .nm{overflow-wrap:anywhere}
+.wbox{flex:none;height:64px;max-width:100%;display:flex;align-items:flex-end;justify-content:center;position:relative;padding:0 6px}
+.icon{width:64px;max-width:100%;height:auto;image-rendering:pixelated}
 .nm{color:var(--text)}
 .yr{font-size:13px;font-variant-numeric:tabular-nums}
+.tab .yr{display:none}
 .tab:hover .nm{text-decoration:underline;text-underline-offset:4px}
 .tab[aria-current] .nm{color:var(--acc)}
-.tab[aria-current]::after{content:"";position:absolute;left:50%;bottom:-4px;width:8px;height:8px;margin-left:-4px;background:var(--acc)}
-.tab[aria-current] .wbox::before,.tab[aria-current] .wbox::after{content:"";position:absolute;width:10px;height:10px;border:2px solid var(--acc)}
-.tab[aria-current] .wbox::before{left:0;top:2px;border-right:0;border-bottom:0}
-.tab[aria-current] .wbox::after{right:0;bottom:2px;border-left:0;border-top:0}
+.tab[aria-current]::after{content:"";position:absolute;left:50%;bottom:3px;width:6px;height:3px;margin-left:-3px;background:var(--acc)}
 
-/* Each role's scene, pushed a little off the left edge. Its dotted ring is the wrap shape. */
-.panel{display:flow-root;position:relative;padding:34px clamp(20px,5vw,72px) 48px 0;max-width:1320px;min-height:calc(var(--big) * .9)}
-.panel{--big:min(600px,48vw)}
-/* Room for the last role to reach the top of the window, so its link and the bar agree. */
-.panel:last-child{min-height:calc(100vh - 4rem)}
-.big{float:left;width:var(--big);aspect-ratio:1;margin:0 0 0 calc(var(--big) * -.18);shape-outside:circle(47% at 50% 50%) border-box;shape-margin:20px}
+/* Balanced columns: illustration and text each keep their own space. */
+.panel{width:min(1120px,calc(100% - 48px));margin:auto;padding:32px 0;display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr);gap:clamp(32px,4.5vw,64px);align-items:start}
+.panel:last-child{min-height:calc(100vh - 4.5rem)}
+.big{width:100%;max-width:380px;justify-self:center;aspect-ratio:1}
 .big svg{display:block;width:100%;height:100%;image-rendering:pixelated}
-/* The left padding stops lines below the circle from returning to the page edge; the curve still shapes lines beside it. */
-.text{padding:calc(var(--big) * .08) 0 0 max(clamp(20px,5vw,72px),calc(var(--big) * .55))}
-.panel .text>*{max-width:calc(var(--big) * .24 + 20px + 26rem)}
-.org{font-size:40px;line-height:1.1;font-weight:400;margin:0 0 6px}
+@media(min-width:761px){#eaf .big,#elements .big,#freelance .big,#codescalers .big,#school .big{max-width:280px}}
+.text{min-width:0}
+.org{font-size:36px;line-height:1.15;font-weight:400;margin:0 0 12px}
 .text h3{font-size:19px;font-weight:400;font-style:italic;margin:0 0 4px}
-.meta{margin:0 0 6px}
+.meta{margin:0 0 22px}
 .meta .title{display:block;font-style:italic}
 .meta .when{display:block;color:var(--muted);font-variant-numeric:tabular-nums;font-size:16px}
-.note{margin:0 0 6px;color:var(--muted);font-size:16px}
-.pts{list-style:none;margin:0 0 12px;padding:0;max-width:46rem}
-.pts li{margin:0 0 10px}
-.pts li::before{content:"";display:inline-block;width:7px;height:7px;background:var(--acc);margin:0 10px 2px 0}
-.tech{color:var(--muted);font-size:15px;max-width:46rem;margin:0}
-footer{padding:0 clamp(20px,5vw,72px) 40px;color:var(--muted);font-size:15px}
-@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
-@media (min-width:761px) and (max-width:1023px){
-  .system ol{gap:2px}
-  .tab{font-size:14px}
-  .yr{font-size:12px}
-  .wbox{height:60px;padding:0 5px}
-  .icon{width:54px}
-}
-@media (max-width:760px){
+.note{margin:0 0 12px;color:var(--muted);font-size:16px}
+.pts{list-style:none;margin:0 0 20px;padding:0}
+.pts li{position:relative;padding-left:18px;margin:0 0 14px}
+.pts li::before{content:"";position:absolute;left:0;top:.65em;width:6px;height:6px;background:var(--acc)}
+.text p{margin-top:0}
+footer{width:min(1120px,calc(100% - 40px));margin:auto;padding:24px 0 40px;color:var(--muted);font-size:15px;text-align:center}
+@media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+@media(min-width:761px) and (max-width:1023px){.yr{font-size:12px}.wbox{height:56px;padding:0 4px}.icon{width:50px}}
+@media(max-width:760px){
   :root{font-size:16px}
-  .now{gap:8px}
-  /* On phones the bar shows only the current object. */
-  .strip a:not([aria-current]){display:none}
-  h1{font-size:clamp(26px,7.7vw,36px)}
-  .system{margin-top:26px}
-  .system ol{display:grid;grid-template-columns:repeat(auto-fill,minmax(max(30%,5.6em),1fr));gap:0}
-  .wbox{height:56px}
-  .icon{width:50px}
-  .tab{font-size:14px;padding:6px 0 10px;min-height:44px}
-  .tab[aria-current]::after{bottom:0}
-  .panel{--big:min(280px,78vw);padding:30px 20px 40px;min-height:0}
-  .panel:last-child{min-height:calc(100vh - 4rem)}
-  .big{float:none;margin:0 0 4px -8px;shape-outside:none}
-  .text{padding:0}
-  .panel .text>*{max-width:36rem}
+  .now-inner{gap:8px}
+  .here .yr{display:none}
+  header{margin-top:22px}
+  h1{font-size:clamp(28px,7.7vw,36px)}
+  .system{margin-top:24px}
+  .system ol{height:max(520px,32em)}
+  .system li{width:52px;min-height:76px}
+  .earth{width:min(120px,30vw)}
+  .orbit-toggle{top:calc(50% + 70px);font-size:12px}
+  .wbox{height:36px;padding:0}.icon{width:36px}
+  .tab{font-size:12px;gap:4px;min-height:76px;padding:4px 0 10px}
+  .tab .yr{display:none}
+  .panel{width:calc(100% - 40px);display:flex;flex-direction:column;gap:20px;padding:24px 0}
+  .big{width:min(240px,55vw,32vh);flex:none;align-self:center}
+  .text{width:100%}
   .org{font-size:30px}
-  .pts li{margin-bottom:8px}
+  .pts li{margin-bottom:12px}
 }
-@media print{.now,.system,.big{display:none}html,:root{background:#fff;color:#000}}
+@media print{.now,.system,.big{display:none}html,:root{background:#fff;color:#000}.panel{display:block;width:auto;padding:20px 0;min-height:0}.panel:last-child{min-height:0}}
 </style>
 </head>
 <body>
 <a class="skip" href="#career">Skip to career</a>
-<div class="now" id="now">
-  <div class="strip" aria-hidden="true">
-{{= ITEMS.map(it => `    <a href="#${it.id}" data-id="${it.id}" tabindex="-1" title="${ESC(it.name)}">${icon(it.id)}</a>`).join('\n') }}
-  </div>
+<div class="now" id="now"><div class="now-inner">
   <p class="here" id="here"></p>
   <a class="plain" id="plain" href="plain.html">Plain CV</a>
-</div>
+</div></div>
 <header>
   <h1>Mohamed Ashour</h1>
   <p class="lead">{{= ESC(lead) }}</p>
@@ -129,9 +107,11 @@ footer{padding:0 clamp(20px,5vw,72px) 40px;color:var(--muted);font-size:15px}
 </header>
 <main id="career">
   <nav class="system" aria-label="Career">
+    <div class="earth">{{= earth() }}</div>
     <ol>
-{{= ITEMS.map(it => `      <li><a class="tab" href="#${it.id}" data-id="${it.id}"><span class="wbox">${icon(it.id)}</span><span class="nm">${ESC(it.name)}</span><span class="yr">${ESC(it.years)}</span></a></li>`).join('\n') }}
+{{= ITEMS.map((it, index) => `    <li style="${orbit(index)}"><a class="tab" href="#${it.id}" data-id="${it.id}"><span class="wbox">${icon(it.id)}</span><span class="nm">${ESC(it.name)}</span><span class="yr">${ESC(it.years)}</span></a></li>`).join('\n') }}
     </ol>
+    <button class="orbit-toggle" type="button" aria-label="Pause orbit animation" aria-pressed="false" hidden>Pause</button>
   </nav>
 {{= ITEMS.map(it => `  <section class="panel" id="${it.id}" aria-labelledby="d-${it.id}-h">
     <div class="big">${scene(it.id)}</div>
@@ -141,17 +121,19 @@ footer{padding:0 clamp(20px,5vw,72px) 40px;color:var(--muted);font-size:15px}
 <footer><a href="plain.html" class="plain-foot">Read the plain CV</a> · <a href="Mohamed-Ashour-CV.pdf" download>Download PDF</a></footer>
 <script>
 (() => {
-  // The role whose top has passed 35% of the window is the one being read.
   const sections = [...document.querySelectorAll('main > section[id]')];
-  const marks = [...document.querySelectorAll('.tab, .strip a')];
+  const marks = [...document.querySelectorAll('.tab')];
   const plain = [...document.querySelectorAll('#plain, .plain-foot')];
   const now = document.getElementById('now'), here = document.getElementById('here');
-  const label = Object.fromEntries([...document.querySelectorAll('.tab')].map(t => [t.dataset.id, [t.querySelector('.nm').textContent, t.querySelector('.yr').textContent]]));
+  const label = Object.fromEntries(marks.map(t => [t.dataset.id, [t.querySelector('.nm').textContent, t.querySelector('.yr').textContent]]));
   let current, queued = false;
-  function update(fromScroll) {
+  function update(syncURL) {
     queued = false;
     let id = null;
     for (const s of sections) if (s.getBoundingClientRect().top <= innerHeight * .35) id = s.id;
+    if (syncURL && location.hash !== (id ? '#' + id : '')) {
+      history.replaceState(null, '', id ? '#' + id : location.pathname + location.search);
+    }
     if (id === current) return;
     current = id;
     marks.forEach(a => a.dataset.id === id ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current'));
@@ -162,12 +144,53 @@ footer{padding:0 clamp(20px,5vw,72px) 40px;color:var(--muted);font-size:15px}
       here.append(label[id][0], yr);
     }
     plain.forEach(a => { a.href = id ? `plain.html?at=${id}` : 'plain.html'; });
-    // Only rewrite the address after the reader has scrolled, so an incoming #role link is never lost.
-    if (fromScroll) history.replaceState(null, '', id ? '#' + id : location.pathname + location.search);
   }
   addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(() => update(true)); } }, { passive: true });
-  addEventListener('resize', () => update(false));
+  addEventListener('resize', () => update(true));
   update(false);
+
+  // Native motion keeps labels upright. Stop it while a person aims, reads or navigates by keyboard.
+  const system = document.querySelector('.system');
+  const toggle = system.querySelector('.orbit-toggle');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  let animations = [], paused = false, visible = false;
+  function syncOrbit() {
+    const play = visible && !document.hidden && !paused && !reduced.matches && !system.matches(':hover, :focus-within');
+    animations.forEach(animation => play ? animation.play() : animation.pause());
+  }
+  function prepareOrbit() {
+    animations.forEach(animation => animation.cancel());
+    animations = [];
+    toggle.hidden = reduced.matches || !Element.prototype.animate;
+    if (toggle.hidden) return;
+    system.querySelectorAll('ol > li').forEach((item, index) => {
+      const frames = Array.from({ length: 73 }, (_, step) => {
+        const angle = (-90 + index * 40 + step * 5) * Math.PI / 180;
+        return { left: `${50 + 37 * Math.cos(angle)}%`, top: `${50 + 37 * Math.sin(angle)}%` };
+      });
+      animations.push(item.animate(frames, { duration: 180000, iterations: Infinity, easing: 'linear' }));
+    });
+    const bounds = system.getBoundingClientRect();
+    visible = bounds.bottom > 0 && bounds.top < innerHeight;
+    syncOrbit();
+  }
+  toggle.addEventListener('click', () => {
+    paused = !paused;
+    toggle.textContent = paused ? 'Resume' : 'Pause';
+    toggle.setAttribute('aria-pressed', String(paused));
+    toggle.setAttribute('aria-label', paused ? 'Resume orbit animation' : 'Pause orbit animation');
+    syncOrbit();
+  });
+  system.addEventListener('pointerenter', syncOrbit);
+  system.addEventListener('pointerleave', syncOrbit);
+  system.addEventListener('focusin', syncOrbit);
+  system.addEventListener('focusout', () => queueMicrotask(syncOrbit));
+  document.addEventListener('visibilitychange', syncOrbit);
+  reduced.addEventListener('change', prepareOrbit);
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(entries => { visible = entries[0].isIntersecting; syncOrbit(); }).observe(system);
+  }
+  prepareOrbit();
 })();
 </script>
 </body>

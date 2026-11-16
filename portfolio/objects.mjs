@@ -1,5 +1,5 @@
 // Role-specific pixel illustrations, generated at build time.
-// Each item gets a small icon (28 x 28 cells) and a large scene (100 x 100 cells, seen through a round window).
+// Each item gets a small icon (28 x 28 cells) and an unframed large scene (100 x 100 cells).
 // Letters map to colours in OBJ_CSS and palette.css.
 
 const hash = (x, y, s) => { const h = Math.sin(x * 127.1 + y * 311.7 + s * 74.7) * 43758.5453; return h - Math.floor(h); };
@@ -307,8 +307,8 @@ const SCENES = {
     for (let r = 0; r < 6; r++) { g.line(33, 62 + r * 2.8, 53, 59 + r * 2.8, 'g'); g.line(61, 59 + r * 2.8, 81 - (r === 5 ? 8 : 0), 62 + r * 2.8, 'g'); }
     // Pen across the right page.
     g.line(66, 74, 88, 52, 'y'); g.line(67, 74, 89, 52, 'Y'); g.set(65, 75, 'k'); g.set(88, 51, 'a'); g.set(89, 51, 'a');
-    // Mortarboard, worn by the engineer sitting behind the book.
-    const cx = 13, cy = 5;
+    // Keep the cap and its tassel separate from the teaching video frame.
+    const cx = 3, cy = 5;
     g.poly([[28 + cx, 30 + cy], [42 + cx, 24 + cy], [56 + cx, 30 + cy], [42 + cx, 36 + cy]], 'k'); g.line(28 + cx, 30 + cy, 42 + cx, 36 + cy, 'G'); g.line(42 + cx, 36 + cy, 56 + cx, 30 + cy, 'G');
     g.rect(35 + cx, 33 + cy, 14, 6, 'k'); g.rect(35 + cx, 38 + cy, 14, 1, 'G');
     g.set(42 + cx, 30 + cy, 'a'); g.line(42 + cx, 30 + cy, 52 + cx, 32 + cy, 'a'); g.line(52 + cx, 32 + cy, 52 + cx, 40 + cy, 'a'); g.rect(51 + cx, 40 + cy, 3, 2, 'a');
@@ -389,14 +389,60 @@ const ICONS = {
   },
 };
 
-// Large scene: the object(s) inside a round window, framed by a dotted ring (the curve the text follows).
+// Keep the complete illustration, without a decorative circle or circular crop.
 export function scene(id) {
-  const g = new Grid(100, 100, [50, 50, 44]);
+  const g = new Grid(100, 100);
   SCENES[id](g);
-  g.clip = null;
-  g.arc(50, 50, 46, 'o', 3);
   return `<svg class="px scene s-${id}" viewBox="0 0 100 100" shape-rendering="crispEdges" aria-hidden="true" focusable="false">${g.svg()}</svg>`;
 }
+// Static Earth for the role-navigation overview, drawn on the same pixel lattice.
+export function earth() {
+  const g = new Grid(64, 64, [32, 32, 28]);
+  g.ell(32, 32, 28, 28, (x, y) => (x + y) % 11 === 0 ? 'S' : 's');
+  const land = (x, y) => vnoise(x / 4, y / 4, 21) > .55 ? 'L' : 'l';
+  for (const points of [
+    [[8, 18], [18, 10], [29, 12], [29, 19], [23, 26], [16, 24], [13, 20]],
+    [[23, 27], [31, 31], [32, 36], [26, 49], [22, 43], [20, 33]],
+    [[36, 17], [43, 13], [49, 17], [44, 24], [37, 23]],
+    [[37, 25], [44, 23], [49, 29], [44, 41], [39, 38], [35, 30]],
+    [[44, 13], [55, 16], [59, 25], [54, 31], [48, 27], [44, 22]],
+    [[49, 43], [56, 42], [59, 47], [52, 50]],
+  ]) g.poly(points, land);
+  g.ell(31, 7, 12, 4, 'i');
+  g.ell(31, 59, 13, 3, 'I');
+  // A restrained night-side edge gives the globe depth without a framing ring.
+  for (let y = 0; y < 64; y++) for (let x = 48; x < 64; x++) {
+    if (g.m.has(y * 64 + x) && (x > 55 || (x + y) % 2 === 0)) g.set(x, y, 'n');
+  }
+  return `<svg class="px earth-art" viewBox="0 0 64 64" shape-rendering="crispEdges" aria-hidden="true" focusable="false">${g.svg()}</svg>`;
+}
+
+// Small, locally drawn contact symbols in the same pixel palette as the role objects.
+export function contactIcon(kind) {
+  const g = new Grid(20, 20);
+  if (kind === 'email') {
+    g.box(2, 4, 16, 12, 'a');
+    g.line(2, 4, 10, 10, 'a'); g.line(10, 10, 17, 4, 'a');
+  } else if (kind === 'blog') {
+    g.box(4, 2, 11, 16, 'a');
+    g.rect(7, 5, 5, 1, 'a'); g.rect(7, 8, 5, 1, 'a'); g.rect(7, 11, 3, 1, 'a');
+    g.line(11, 15, 18, 8, 'a'); g.line(12, 15, 18, 9, 'a');
+  } else if (kind === 'linkedin') {
+    g.box(2, 2, 16, 16, 'a');
+    g.rect(5, 5, 2, 2, 'a'); g.rect(5, 9, 2, 6, 'a');
+    g.rect(9, 9, 2, 6, 'a'); g.rect(11, 8, 3, 2, 'a'); g.rect(14, 10, 2, 5, 'a');
+  } else if (kind === 'github') {
+    g.ell(10, 9, 6, 5, 'a');
+    g.poly([[4, 8], [4, 2], [9, 5]], 'a'); g.poly([[11, 5], [16, 2], [16, 8]], 'a');
+    g.rect(7, 13, 6, 5, 'a');
+    g.line(7, 15, 4, 15, 'a'); g.line(4, 15, 2, 12, 'a');
+    g.rect(7, 8, 1, 2, 'n'); g.rect(12, 8, 1, 2, 'n');
+  } else {
+    throw new Error('Unknown contact icon: ' + kind);
+  }
+  return `<svg class="px contact-icon" viewBox="0 0 20 20" shape-rendering="crispEdges" aria-hidden="true" focusable="false">${g.svg()}</svg>`;
+}
+
 export function icon(id) {
   const g = new Grid(28, 28);
   ICONS[id](g);

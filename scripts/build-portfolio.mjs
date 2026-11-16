@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { marked } from 'marked';
-import { icon, scene, OBJ_CSS } from '../portfolio/objects.mjs';
+import { icon, scene, earth, contactIcon, OBJ_CSS } from '../portfolio/objects.mjs';
 
 const ESC = value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 const plain = text => text.replaceAll('**', '').trim();
@@ -31,7 +31,7 @@ export async function buildPortfolio(markdown) {
     if (body[0]?.type !== 'paragraph') throw new Error(`Missing dates for ${org}`);
     const dates = plain(body[0].text);
     const title = heading.text.slice(0, heading.text.lastIndexOf(' | '));
-    const years = dates.match(/\b\d{4}\b|Present/gi)?.join(' – ') ?? dates;
+    const years = [...new Set(dates.match(/\b\d{4}\b|Present/gi) ?? [dates])].join(' – ');
     const html = `<h2 class="org" id="d-${id}-h">${ESC(org)}</h2><p class="meta"><span class="title">${ESC(title)}</span><span class="when">${ESC(dates)}</span></p>` + marked.parser(body.slice(1)).replaceAll('<ul>', '<ul class="pts">');
     return { id, name: id === 'eaf' ? 'Air Force' : id === 'elements' ? 'Elements' : id === 'freelance' ? 'Freelance' : id === 'codescalers' ? 'Codescalers' : org, years, html };
   });
@@ -48,9 +48,17 @@ export async function buildPortfolio(markdown) {
     }
   }
   collect(tokens.slice(0, tokens.findIndex(t => t.type === 'heading' && t.depth === 2)));
-  const links = () => '<p class="links">' + contactLinks.map(t => `<a href="${ESC(t.href)}">${ESC(t.text)}</a>`).join(' ') + '</p>';
+  const links = () => '<p class="links">' + contactLinks.map(t => {
+    const kind = t.href.startsWith('mailto:') ? 'email' : new URL(t.href).hostname === 'github.com' ? 'github' : new URL(t.href).hostname.endsWith('linkedin.com') ? 'linkedin' : 'blog';
+    const name = { email: 'Email', blog: 'Blog', linkedin: 'LinkedIn', github: 'GitHub' }[kind];
+    return `<a href="${ESC(t.href)}" title="${ESC(t.text)}">${contactIcon(kind)}<span>${name}</span></a>`;
+  }).join(' ') + '</p>';
   const scope = {
-    ESC, ITEMS: items, lead, links, icon, scene,
+    ESC, ITEMS: items, lead, links, icon, scene, earth,
+    orbit: index => {
+      const angle = (-90 + index * 40) * Math.PI / 180;
+      return `left:${(50 + 37 * Math.cos(angle)).toFixed(4)}%;top:${(50 + 37 * Math.sin(angle)).toFixed(4)}%`;
+    },
     ART_CSS: await readFile('portfolio/palette.css', 'utf8') + OBJ_CSS,
     details: id => items.find(item => item.id === id).html,
   };

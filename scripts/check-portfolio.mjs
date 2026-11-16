@@ -21,15 +21,21 @@ function headerLayout() {
   const glyphs = [...document.querySelectorAll('header h1, header .lead, header .links a')].map(e => { const r = document.createRange(); r.selectNodeContents(e); return r.getBoundingClientRect(); });
   const tabs = [...document.querySelectorAll('.system .tab')].map(t => {
     const r = t.getBoundingClientRect();
-    return { id: t.dataset.id, r, nmTop: t.querySelector('.nm').getBoundingClientRect().top, inside: [...t.querySelectorAll('.wbox,.nm,.yr')].every(c => { const b = c.getBoundingClientRect(); return b.left >= r.left - 1 && b.right <= r.right + 1; }) };
+    return { id: t.dataset.id, r, nmTop: t.querySelector('.nm').getBoundingClientRect().top, inside: [...t.querySelectorAll('.wbox,.nm,.yr')].every(c => { const b = c.getBoundingClientRect(); return !b.width || b.left >= r.left - 1 && b.right <= r.right + 1; }) };
   });
+  const earth = document.querySelector('.earth').getBoundingClientRect();
+  const orbit = document.querySelector('.system ol').getBoundingClientRect();
   return {
+    earthCentered: Math.abs((earth.left + earth.right - orbit.left - orbit.right) / 2) <= 1 && Math.abs((earth.top + earth.bottom - orbit.top - orbit.bottom) / 2) <= 1,
+    orbitClear: tabs.every(t => !hit(t.r, earth)),
     plainCovers: glyphs.some(g => hit(g, plain) || hit(g, bar)),
     nameClear: document.querySelector('h1').getBoundingClientRect().top >= bar.bottom,
     outside: tabs.filter(t => !t.inside).map(t => t.id),
     tabOverlap: tabs.some((t, i) => tabs.slice(i + 1).some(u => hit(t.r, u.r))),
     rowMisaligned: tabs.some(t => tabs.some(u => Math.abs(u.r.top - t.r.top) < 2 && Math.abs(u.nmTop - t.nmTop) > 2)),
     barHeight: bar.height,
+    centeredName: Math.abs((document.querySelector('h1').getBoundingClientRect().left + document.querySelector('h1').getBoundingClientRect().right) / 2 - innerWidth / 2) <= 1,
+    centeredLabel: Math.abs((document.getElementById('here').getBoundingClientRect().left + document.getElementById('here').getBoundingClientRect().right) / 2 - innerWidth / 2) <= 1,
     overflow: document.documentElement.scrollWidth > innerWidth + 1,
   };
 }
@@ -38,11 +44,12 @@ function assertHeader(m, label, { maxBar }) {
   assert(m.nameClear, `${label}: name starts under the bar`);
   assert.deepEqual(m.outside, [], `${label}: navigation icon or label leaves its column`);
   assert(!m.tabOverlap, `${label}: navigation items overlap`);
-  assert(!m.rowMisaligned, `${label}: navigation labels in one row do not share a top line`);
+  assert(m.earthCentered && m.orbitClear, `${label}: icons should sit around a centered Earth without covering it`);
   assert(m.barHeight <= maxBar, `${label}: sticky bar is ${Math.round(m.barHeight)}px tall`);
   assert(!m.overflow, `${label}: horizontal overflow`);
+  assert(m.centeredName && m.centeredLabel, `${label}: introduction and reading label must be centered`);
 }
-// Local geometry of one role: narrow wrapped lines and scene placement.
+// Local geometry of one role: readable lines, centered columns and complete illustrations.
 function sectionLayout(id) {
   const section = document.getElementById(id), text = section.querySelector('.text');
   const big = section.querySelector('.big').getBoundingClientRect(), tr = text.getBoundingClientRect();
@@ -57,22 +64,25 @@ function sectionLayout(id) {
     }
     for (const l of lines) { narrow = Math.min(narrow, el.getBoundingClientRect().right - l.left); minLeft = Math.min(minLeft, l.left); }
   }
-  return { narrow, minLeft, big: { left: big.left, bottom: big.bottom, center: big.left + big.width / 2 }, textTop: tr.top, overflow: document.documentElement.scrollWidth > innerWidth + 1 };
+  const bounds = section.getBoundingClientRect();
+  const aligned = [...text.children].every(el => Math.abs(el.getBoundingClientRect().left - tr.left) <= 1);
+  return { narrow, minLeft, big: { left: big.left, right: big.right, bottom: big.bottom, center: big.left + big.width / 2 }, textTop: tr.top, textLeft: tr.left, aligned, centered: Math.abs((bounds.left + bounds.right) / 2 - innerWidth / 2) <= 1, overflow: document.documentElement.scrollWidth > innerWidth + 1 };
 }
 function assertSection(m, label, width, { mobile, large = false }) {
   assert(m.narrow >= Math.min(200, width * .55), `${label}: text squeezed to ${Math.round(m.narrow)}px`);
   assert(!m.overflow, `${label}: horizontal overflow`);
+  assert(m.centered && m.aligned, `${label}: centered section with a stable text edge`);
+  assert(m.big.left >= 0 && m.big.right <= width, `${label}: illustration must not be clipped`);
   if (mobile) {
-    assert(m.big.left >= 0, `${label}: mobile scene is cropped at the left edge`);
+    assert(Math.abs(m.big.center - width / 2) <= 1, `${label}: mobile illustration must be centered`);
     assert(m.big.bottom <= m.textTop + 1, `${label}: mobile scene must sit above its text`);
-  } else if (!large) {
-    assert(m.minLeft >= m.big.center, `${label}: text runs back under the scene`);
+  } else {
+    assert(m.big.right < m.textLeft, `${label}: illustration and text must occupy separate columns`);
   }
 }
-// What the page says is being read: navigation, bar strip, bar label, Plain CV targets and address.
+// What the page says is being read: navigation, centered banner label, Plain CV targets and address.
 const state = () => ({
   tab: document.querySelector('.system .tab[aria-current=true]')?.dataset.id ?? null,
-  strip: document.querySelector('.strip a[aria-current=true]')?.dataset.id ?? null,
   here: document.getElementById('here').textContent,
   plain: [...document.querySelectorAll('#plain, .plain-foot')].map(a => a.getAttribute('href')),
   hash: location.hash,
@@ -93,7 +103,6 @@ async function settle(page) {
 async function assertReading(page, id, label) {
   const s = await page.evaluate(state);
   assert.equal(s.tab, id, `${label}: navigation should mark ${id}, got ${s.tab}`);
-  assert.equal(s.strip, id, `${label}: bar strip should mark ${id}`);
   assert(s.here.length > 0, `${label}: bar names the current role`);
   assert.deepEqual(s.plain, [`plain.html?at=${id}`, `plain.html?at=${id}`], `${label}: Plain CV must return to ${id}`);
   return s;
@@ -102,17 +111,18 @@ async function assertReading(page, id, label) {
 const anchored = id => {
   const bar = document.getElementById('now').getBoundingClientRect(), h = document.getElementById(`d-${id}-h`).getBoundingClientRect();
   const top = document.getElementById(id).getBoundingClientRect().top;
-  return { gap: top - bar.bottom, barCovers: bar.bottom > h.top + 1 || top < bar.bottom - 1 };
+  return { gap: top - bar.bottom, barCovers: bar.bottom > h.top + 1 || top < bar.bottom - 1, headingVisible: h.bottom <= innerHeight };
 };
 async function assertAnchored(page, id, label) {
   const a = await page.evaluate(anchored, id);
   assert(!a.barCovers, `${label}: sticky bar covers the ${id} heading`);
+  assert(a.headingVisible, `${label}: anchor arrival must show the role heading, not only artwork`);
   assert(a.gap < 160, `${label}: ${id} should start near the top, gap ${Math.round(a.gap)}px`);
 }
 // Every role stays in the document, visible and in source order.
 const inFlow = () => {
   const s = [...document.querySelectorAll('main > section')];
-  return { ids: s.map(e => e.id), visible: s.every(e => e.checkVisibility() && e.getBoundingClientRect().height > 100), ordered: s.every((e, i) => !i || e.getBoundingClientRect().top >= s[i - 1].getBoundingClientRect().bottom - 1), tabs: document.querySelectorAll('[role=tab],[role=tabpanel],[role=tablist],[hidden]').length };
+  return { ids: s.map(e => e.id), visible: s.every(e => e.checkVisibility() && e.getBoundingClientRect().height > 100), ordered: s.every((e, i) => !i || e.getBoundingClientRect().top >= s[i - 1].getBoundingClientRect().bottom - 1), tabs: document.querySelectorAll('[role=tab],[role=tabpanel],[role=tablist],main > section[hidden]').length };
 };
 async function assertInFlow(page, label) {
   const f = await page.evaluate(inFlow);
@@ -153,6 +163,26 @@ async function pageDownThrough(page, label) {
   assert.deepEqual(marked, IDS.filter(id => marked.includes(id)), `${label}: marked role only moves forward`);
   assert(marked[0] === 'hydrosat' && marked.at(-1) === 'school', `${label}: Page Down marks roles through to the last, got ${marked}`);
 }
+// Sample a complete orbit, not just its initial arrangement, to catch moving-label collisions.
+function orbitLayout() {
+  const items = [...document.querySelectorAll('.system ol > li')];
+  const animations = items.flatMap(item => item.getAnimations());
+  animations.forEach(animation => animation.pause());
+  const hit = (a, b) => Math.min(a.right, b.right) - Math.max(a.left, b.left) > .5 && Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top) > .5;
+  const issues = [];
+  for (let step = 0; step < 72; step++) {
+    animations.forEach(animation => { animation.currentTime = step * 2500; });
+    const boxes = items.map(item => item.getBoundingClientRect());
+    const earth = document.querySelector('.earth').getBoundingClientRect();
+    const toggle = document.querySelector('.orbit-toggle').getBoundingClientRect();
+    boxes.forEach((box, index) => {
+      boxes.slice(index + 1).forEach((other, offset) => { if (hit(box, other)) issues.push(`${step}:${index}/${index + offset + 1}`); });
+      if (hit(box, earth) || hit(box, toggle)) issues.push(`${step}:${index}/center`);
+      if (box.left < -1 || box.right > innerWidth + 1) issues.push(`${step}:${index}/clipped`);
+    });
+  }
+  return { count: animations.length, issues: issues.slice(0, 10) };
+}
 const largerText = z => { const all = [...document.querySelectorAll('html, body, body *')]; const sizes = all.map(e => parseFloat(getComputedStyle(e).fontSize)); all.forEach((e, i) => e.style.setProperty('font-size', sizes[i] * z + 'px', 'important')); };
 
 const markdown = await readFile('cv.md', 'utf8');
@@ -183,11 +213,13 @@ try {
     assert.equal(await page.locator('.sketch,.metaphor').count(), 0);
     // The selected design has role illustrations only, with no personal avatar.
     assert.deepEqual(await page.locator('.big svg').evaluateAll(s => s.map(e => e.getAttribute('aria-hidden') === 'true' && e.querySelectorAll('.pf,.pK').length === 0)), IDS.map(() => true), `${label}: decorative role scenes without avatar`);
-    assert.equal(await page.locator('header svg, .avatar').count(), 0, `${label}: no header portrait`);
+    assert.equal(await page.locator('header svg:not(.contact-icon), .avatar').count(), 0, `${label}: no header portrait`);
+    assert.equal(await page.locator('header .links a .contact-icon[aria-hidden="true"]').count(), 4, `${label}: each contact link has a decorative pixel icon`);
+    assert.deepEqual(await page.locator('header .links a').allTextContents(), ['Email', 'Blog', 'LinkedIn', 'GitHub'], `${label}: compact, accessible contact labels`);
     assert(!/\bsketch(?:es)?\b/i.test(await page.locator('body').innerText()), 'Remove illustration notes');
     assert.deepEqual(await page.locator('.system .tab').evaluateAll(a => a.map(e => e.getAttribute('href'))), IDS.map(id => '#' + id), `${label}: navigation links are anchors`);
     assertHeader(await page.evaluate(headerLayout), label, { maxBar: 60 });
-    assert.deepEqual(await page.evaluate(state), { tab: null, strip: null, here: '', plain: ['plain.html', 'plain.html'], hash: '' }, `${label}: nothing is marked before the first role`);
+    assert.deepEqual(await page.evaluate(state), { tab: null, here: '', plain: ['plain.html', 'plain.html'], hash: '' }, `${label}: nothing is marked before the first role`);
     await assertInFlow(page, label);
 
     // Scrolling alone moves the indicator, the address and the Plain CV target; Plain CV returns to the same role.
@@ -196,6 +228,9 @@ try {
       const s = await assertReading(page, id, `${label}/${id} scrolled`);
       assert.equal(s.hash, '#' + id, `${label}/${id}: address follows reading`);
       assertSection(await page.evaluate(sectionLayout, id), `${label}/${id}`, width, { mobile });
+      if (width >= 1024 && ['elements', 'school'].includes(id)) {
+        assert(await page.locator(`#d-${id}-h`).evaluate(h => h.getBoundingClientRect().height <= parseFloat(getComputedStyle(h).lineHeight) + 1), `${label}/${id}: desktop heading should fit on one line`);
+      }
       await page.locator('#plain').click();
       assert.equal(new URL(page.url()).searchParams.get('at'), id);
       await page.getByRole('link', { name: 'Back to portfolio', exact: true }).click();
@@ -214,7 +249,7 @@ try {
     await assertReading(page, 'yaoota', `${label} nav click`);
     await assertInFlow(page, `${label} nav click`);
 
-    // Keyboard: skip link, then Plain CV; the bar's shortcut strip is not a tab stop. Enter on a role link moves on into that role.
+    // Keyboard: skip link, then Plain CV. Enter on an orbit link moves on into that role.
     await page.goto(url('index.html')); await settle(page);
     await page.keyboard.press('Tab');
     assert(await page.locator('.skip').evaluate(el => el === document.activeElement), `${label}: first Tab reaches the skip link`);
@@ -244,6 +279,21 @@ try {
     console.log(`Portfolio checks passed at ${width}px`);
   }
 
+  // A resize can change the reading role without changing scrollY. A subsequent scroll must reconcile its URL.
+  const resized = await browser.newPage({ viewport: { width: 390, height: 900 }, reducedMotion: 'reduce' });
+  await resized.goto(url('index.html'));
+  await scrollToRole(resized, 'eaf');
+  await assertReading(resized, 'eaf', 'before resize');
+  await resized.setViewportSize({ width: 1440, height: 900 }); await settle(resized);
+  const afterResize = await resized.evaluate(state);
+  assert.equal(afterResize.hash, '#' + afterResize.tab, 'Resizing must immediately synchronize the section hash');
+  await resized.evaluate(() => scrollBy(0, 10)); await settle(resized);
+  const resizedState = await resized.evaluate(state);
+  assert(resizedState.tab, 'After resize there must be an active role');
+  assert.equal(resizedState.hash, '#' + resizedState.tab, 'Resize then scrolling must not retain a stale section hash');
+  await assertReading(resized, resizedState.tab, 'after resize and small scroll');
+  await resized.close();
+
   // Text-only zoom (as with Firefox's option) must reflow without covering, clipping or squeezing content.
   for (const width of [320, 1024]) {
     const page = await browser.newPage({ viewport: { width, height: 900 }, reducedMotion: 'reduce' });
@@ -258,7 +308,7 @@ try {
     await page.close();
   }
   // Short windows, such as a phone on its side: the bar stays small and Page Down still reaches every role.
-  for (const [width, height, zoom] of [[390, 560, 1], [740, 360, 1], [1024, 600, 1], [390, 560, 2]]) {
+  for (const [width, height, zoom] of [[390, 560, 1], [667, 375, 1], [740, 360, 1], [1024, 600, 1], [390, 560, 2]]) {
     const label = `${width}x${height}${zoom > 1 ? '/200% text' : ''}`;
     const page = await browser.newPage({ viewport: { width, height }, reducedMotion: 'reduce' });
     await page.goto(url('index.html'));
@@ -266,17 +316,45 @@ try {
     const bar = await page.locator('#now').evaluate(e => e.getBoundingClientRect().height);
     assert(bar <= height * (zoom > 1 ? .2 : .14), `${label}: sticky bar takes ${Math.round(bar)}px`);
     await pageDownThrough(page, label);
-    await page.goto(url('index.html') + '#toolkit'); await settle(page);
-    if (zoom > 1) { await page.evaluate(largerText, zoom); await page.locator('#toolkit').evaluate(e => e.scrollIntoView()); await settle(page); }
-    await assertAnchored(page, 'toolkit', label);
+    for (const id of zoom > 1 ? ['toolkit'] : IDS) {
+      // Arrive fresh, like a shared link: a same-page hash change keeps inline styles, and a reload restores the old scroll position.
+      await page.goto('about:blank');
+      await page.goto(url('index.html') + '#' + id); await settle(page);
+      if (zoom > 1) { await page.evaluate(largerText, zoom); await page.locator('#' + id).evaluate(e => e.scrollIntoView()); await settle(page); }
+      await assertAnchored(page, id, label);
+    }
     await page.close();
+  }
+
+  for (const width of [320, 768, 1440]) {
+    const moving = await browser.newPage({ viewport: { width, height: 1000 }, reducedMotion: 'no-preference' });
+    await moving.goto(url('index.html'));
+    const pause = moving.getByRole('button', { name: 'Pause orbit animation', exact: true });
+    await pause.waitFor({ state: 'visible' });
+    await moving.locator('.system').hover();
+    assert(await moving.locator('.system li').evaluateAll(items => items.every(item => item.getAnimations().every(a => a.playState === 'paused'))), 'Orbit pauses while aiming');
+    await pause.click();
+    assert.equal(await moving.getByRole('button', { name: 'Resume orbit animation', exact: true }).getAttribute('aria-pressed'), 'true');
+    await moving.locator('h1').click();
+    assert(await moving.locator('.system li').evaluateAll(items => items.every(item => item.getAnimations().every(a => a.playState === 'paused'))), 'Explicit pause persists after leaving navigation');
+    const sample = await moving.evaluate(orbitLayout);
+    assert.equal(sample.count, 9, 'Every icon has an upright orbital path');
+    assert.deepEqual(sample.issues, [], `${width}: full orbit must remain readable and collision-free`);
+    if (width === 320) {
+      await moving.evaluate(largerText, 2);
+      assert.deepEqual((await moving.evaluate(orbitLayout)).issues, [], 'Enlarged orbit labels must remain collision-free');
+    }
+    await moving.emulateMedia({ reducedMotion: 'reduce' });
+    await moving.waitForFunction(() => document.querySelector('.orbit-toggle').hidden);
+    assert.equal(await moving.locator('.system li').evaluateAll(items => items.flatMap(item => item.getAnimations()).length), 0, 'Reduced motion keeps all icons stationary');
+    await moving.close();
   }
 
   const noJS = await browser.newPage({ javaScriptEnabled: false, viewport: { width: 1024, height: 800 } });
   await noJS.goto(url('index.html'));
   await assertInFlow(noJS, 'no JavaScript');
   assert.equal(await noJS.getByRole('link', { name: 'Plain CV', exact: true }).getAttribute('href'), 'plain.html');
-  assert.equal(await noJS.locator('.strip').evaluate(e => getComputedStyle(e).visibility), 'hidden', 'No-JS: bar strip stays out of the way');
+  assert.equal(await noJS.locator('.strip').count(), 0, 'The reading bar must not duplicate the icon navigation');
   for (const bullet of bullets) assert((await noJS.locator('main li:visible').allTextContents()).map(normalize).includes(normalize(bullet)), `No-JS: missing ${bullet}`);
   await noJS.locator('.system .tab[href="#codescalers"]').click(); await settle(noJS);
   await assertAnchored(noJS, 'codescalers', 'No-JS nav link');
