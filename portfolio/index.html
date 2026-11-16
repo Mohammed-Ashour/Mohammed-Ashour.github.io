@@ -6,6 +6,17 @@
 <meta name="theme-color" content="#141c38">
 <meta name="description" content="Mohamed Ashour, senior software engineer building data-intensive systems, cloud infrastructure and ML-enabled applications.">
 <title>Mohamed Ashour | Software engineer</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://cv.m-ashour.space/">
+<meta property="og:type" content="profile">
+<meta property="og:url" content="https://cv.m-ashour.space/">
+<meta property="og:title" content="Mohamed Ashour | Software engineer">
+<meta property="og:description" content="Senior software engineer building data-intensive systems, distributed pipelines, cloud infrastructure and ML-enabled applications.">
+<meta property="og:image" content="https://cv.m-ashour.space/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Mohamed Ashour's career icons orbiting a pixel-art Earth">
+<meta name="twitter:card" content="summary_large_image">
 <style>
 :root{--bg:#141c38;--text:#efe8d8;--muted:#aab1c7;--acc:#f1b24a;--line:#3a4677;font:17px/1.6 "Iowan Old Style","Palatino Linotype",Palatino,"P052","URW Palladio L",Georgia,serif;color:var(--text);background:var(--bg)}
 {{= ART_CSS }}
@@ -33,18 +44,27 @@ h1{font-size:44px;line-height:1.1;font-weight:400;letter-spacing:-.01em;margin:1
 .links a{display:inline-flex;align-items:center;gap:8px;min-height:32px}
 .contact-icon{display:block;width:20px;height:20px;flex:none;image-rendering:pixelated}
 
-.system{width:min(840px,calc(100% - 40px));margin:24px auto 8px;position:relative}
+.system{width:min(1040px,calc(100% - 24px));margin:24px auto 8px;position:relative}
 .orbit-scene{position:relative}
-.system ol{height:max(540px,30em);position:relative;margin:0;padding:0;list-style:none}
-.system li{position:absolute;transform:translate(-50%,-50%);width:110px;min-height:100px;display:flex}
-.earth{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:260px;pointer-events:none;opacity:calc(1 - var(--world-blend,0) * .8)}
+.system ol{height:max(440px,26em);position:relative;margin:0;padding:0;list-style:none}
+.system li{position:absolute;transform:translate(-50%,-50%);width:44px;min-height:44px;display:flex;z-index:3}
+.system li:hover,.system li:focus-within{z-index:4!important}
+.orbit-tracks{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:visible}
+/* The near half of each orbit is drawn after Earth, so it crosses in front of the planet. */
+.orbit-tracks.near{z-index:2}
+.orbit-track{fill:none;stroke:var(--line);stroke-width:1;stroke-dasharray:2 5;opacity:.9}
+.orbit-track.highlighted{stroke:var(--acc);opacity:.8}
+.earth{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:260px;max-width:100%;pointer-events:none;z-index:2;opacity:calc(1 - var(--world-blend,0) * .8)}
 .earth svg{display:block;width:100%;height:auto;image-rendering:pixelated}
 .orbit-toggle{display:block;margin:8px auto;min-width:64px;min-height:36px;border:0;padding:4px 8px;background:none;color:var(--muted);font:inherit;font-size:13px;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
 .orbit-toggle[hidden]{display:none}
-.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;text-wrap:balance;text-align:center;padding:4px 2px 12px;color:var(--muted);text-decoration:none;font-size:14px;line-height:1.3;position:relative}
-.tab .nm{overflow-wrap:anywhere}
-.wbox{flex:none;height:64px;max-width:100%;display:flex;align-items:flex-end;justify-content:center;position:relative;padding:0 6px}
-.icon{width:64px;max-width:100%;height:auto;image-rendering:pixelated}
+.tab{flex:1;display:flex;align-items:center;justify-content:center;min-height:44px;padding:2px;color:var(--muted);text-decoration:none;font-size:14px;line-height:1.3;position:relative}
+.tab .nm{position:absolute;top:calc(100% + 4px);left:50%;transform:translateX(-50%);width:max-content;max-width:140px;padding:2px 4px;background:var(--bg);display:none;text-align:center;overflow-wrap:anywhere;pointer-events:none}
+.tab:hover .nm,.tab:focus-visible .nm{display:block}
+.system li[data-edge=left] .nm{left:0;transform:none;text-align:left}
+.system li[data-edge=right] .nm{left:auto;right:0;transform:none;text-align:right}
+.wbox{flex:none;width:40px;height:40px;display:flex;align-items:center;justify-content:center}
+.icon{width:40px;max-width:100%;height:auto;image-rendering:pixelated}
 .nm{color:var(--text)}
 .yr{font-size:13px;font-variant-numeric:tabular-nums}
 .tab .yr{display:none}
@@ -55,10 +75,10 @@ h1{font-size:44px;line-height:1.1;font-weight:400;letter-spacing:-.01em;margin:1
 /* The overview becomes a faint backdrop; only completed sections join its orbit. */
 .world-backdrop{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:var(--world-blend,0);overflow:hidden}
 .background-system{position:absolute;left:50%;top:54%;transform:translate(-50%,-50%);width:min(920px,100vw);height:min(700px,82vh)}
-.background-earth{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(440px,55vw);opacity:.075}
+.background-earth{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(440px,55vw);opacity:.05;z-index:2}
 .background-earth svg{display:block;width:100%;height:auto;image-rendering:pixelated}
 .collected-icon{position:absolute;transform:translate(-50%,-50%);width:40px;height:40px;opacity:0;transition:opacity .18s ease-out}
-.collected-icon.collected{opacity:.14}
+.collected-icon.collected{opacity:.1}
 .collected-icon svg{display:block;width:100%;height:100%;image-rendering:pixelated}
 header,main,footer{position:relative;z-index:1}
 @media(prefers-reduced-motion:reduce){.collected-icon{transition:none}}
@@ -82,7 +102,7 @@ header,main,footer{position:relative;z-index:1}
 .text p{margin-top:0}
 footer{width:min(1120px,calc(100% - 40px));margin:auto;padding:24px 0 40px;color:var(--muted);font-size:15px;text-align:center}
 @media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
-@media(min-width:761px) and (max-width:1023px){.earth{width:240px}.yr{font-size:12px}.wbox{height:56px;padding:0 4px}.icon{width:50px}}
+@media(min-width:761px) and (max-width:1023px){.earth{width:240px}.yr{font-size:12px}}
 @media(max-width:760px){
   :root{font-size:16px}
   .now-inner{gap:8px}
@@ -90,12 +110,12 @@ footer{width:min(1120px,calc(100% - 40px));margin:auto;padding:24px 0 40px;color
   header{margin-top:22px}
   h1{font-size:clamp(28px,7.7vw,36px)}
   .system{margin-top:24px}
-  .system ol{height:max(520px,32em)}
-  .system li{width:52px;min-height:76px}
-  .earth{width:min(160px,40vw)}
+  .system ol{height:max(270px,17em)}
+  .earth{width:min(112px,25vw)}
   .orbit-toggle{font-size:12px}
-  .wbox{height:36px;padding:0}.icon{width:36px}
-  .tab{font-size:12px;gap:4px;min-height:76px;padding:4px 0 10px}
+  .system li{width:32px;min-height:32px}
+  .wbox{width:32px;height:32px}.icon{width:28px}
+  .tab{font-size:12px;min-height:32px;padding:0}
   .tab .yr{display:none}
   .panel{width:calc(100% - 40px);display:flex;flex-direction:column;gap:20px;padding:24px 0}
   .big{width:min(240px,55vw,32vh);flex:none;align-self:center}
@@ -124,9 +144,11 @@ footer{width:min(1120px,calc(100% - 40px));margin:auto;padding:24px 0 40px;color
 <main id="career">
   <nav class="system" aria-label="Career">
     <div class="orbit-scene">
+    <svg class="orbit-tracks far" aria-hidden="true" focusable="false"></svg>
     <div class="earth">{{= earth() }}</div>
+    <svg class="orbit-tracks near" aria-hidden="true" focusable="false"></svg>
     <ol>
-{{= ITEMS.map((it, index) => `    <li style="${orbit(index)}"><a class="tab" href="#${it.id}" data-id="${it.id}"><span class="wbox">${icon(it.id)}</span><span class="nm">${ESC(it.name)}</span><span class="yr">${ESC(it.years)}</span></a></li>`).join('\n') }}
+{{= ITEMS.map((it, index) => `    <li style="${orbit(index)}"><a class="tab" href="#${it.id}" data-id="${it.id}" aria-label="${ESC(it.name)}"><span class="wbox">${icon(it.id)}</span><span class="nm">${ESC(it.name)}</span><span class="yr">${ESC(it.years)}</span></a></li>`).join('\n') }}
     </ol>
     </div>
     <button class="orbit-toggle" type="button" aria-label="Pause orbit animation" aria-pressed="false" hidden>Pause</button>
@@ -146,23 +168,94 @@ footer{width:min(1120px,calc(100% - 40px));margin:auto;padding:24px 0 40px;color
   const label = Object.fromEntries(marks.map(t => [t.dataset.id, [t.querySelector('.nm').textContent, t.querySelector('.yr').textContent]]));
   const backdrop = document.querySelector('.world-backdrop');
   const collected = [...backdrop.querySelectorAll('.collected-icon')];
-  const passed = new Set();
-  let current, queued = false, backgroundAngle = 0;
+  // Each role circles Earth on its own inclined plane, viewed from slightly above.
+  // [radius in Earth radii, relative speed, on-screen tilt, flatness (cos of inclination), preferred phase]
+  const planes = [
+    [1.6, 1.3, -.10, .50, 3.4], [2.0, 1.05, .14, .46, .9], [2.35, .9, -.06, .44, 4.6],
+    [2.7, .78, .10, .42, .1], [3.05, .68, -.14, .40, 2.3], [3.35, .6, -.18, .38, 1.4],
+    [3.65, .53, -.06, .36, 5.6], [1.6, 1.42, .22, .42, .25], [3.95, .46, .26, .34, 3.9],
+  ];
+  const REACH = Math.max(...planes.map(p => p[0]));
+  let current, queued = false, backgroundAngle = 0, backdropGeometry;
+  // Unscaled projection: x/y on screen in Earth radii, and whether the point is on the near side.
+  function project(index, angle, stretch = 1) {
+    const [radius, , tilt, flat] = planes[index];
+    const x = Math.cos(angle) * radius, y = Math.sin(angle) * radius * Math.min(.92, flat * stretch);
+    return { x: x * Math.cos(tilt) - y * Math.sin(tilt), y: x * Math.sin(tilt) + y * Math.cos(tilt), near: Math.sin(angle) >= 0 };
+  }
+  function extent(stretch) {
+    let w = 0, h = 0;
+    planes.forEach((_, index) => { for (let step = 0; step < 72; step++) { const p = project(index, step * Math.PI / 36, stretch); w = Math.max(w, Math.abs(p.x)); h = Math.max(h, Math.abs(p.y)); } });
+    return { w, h };
+  }
+  // Size Earth so every orbit fits its frame, then measure the planet that was actually painted.
+  function globeLayout(root, selector, { resize = false, pad = 26 } = {}) {
+    const frame = root.getBoundingClientRect(), holder = root.querySelector(selector).parentElement;
+    const halfW = frame.width / 2 - pad, halfH = frame.height / 2 - pad;
+    const flatExtent = extent(1);
+    // Narrow, tall frames open the ellipses up instead of shrinking Earth further.
+    const stretch = Math.max(1, Math.min(1.6, (halfH / flatExtent.h) / (halfW / flatExtent.w)));
+    const reach = extent(stretch);
+    const fit = Math.max(8, Math.min(halfW / reach.w, halfH / reach.h));
+    const measure = () => {
+      const svg = root.querySelector(selector), bounds = svg.getBoundingClientRect(), paint = svg.getBBox(), view = svg.viewBox.baseVal;
+      const scale = bounds.width / view.width;
+      return { bounds, paint, view, scale, radius: paint.width * scale / 2 };
+    };
+    if (resize) {
+      holder.style.width = '';
+      const natural = measure();
+      if (natural.radius > fit) holder.style.width = `${natural.bounds.width * fit / natural.radius}px`;
+    }
+    const m = measure();
+    const cx = m.bounds.left - frame.left + (m.paint.x + m.paint.width / 2 - m.view.x) * m.scale;
+    const cy = m.bounds.top - frame.top + (m.paint.y + m.paint.height / 2 - m.view.y) * m.scale;
+    return { cx, cy, radius: m.radius, unit: Math.min(m.radius, fit), stretch, width: frame.width, height: frame.height };
+  }
+  function orbitalPoint(index, angle, geometry) {
+    const p = project(index, angle, geometry.stretch);
+    return { left: geometry.cx + p.x * geometry.unit, top: geometry.cy + p.y * geometry.unit, near: p.near, zIndex: p.near ? 3 : 1 };
+  }
+  // Pick resting phases that keep every icon off the planet and apart from each other, preferring the designed spread.
+  function restingPhases(geometry, size) {
+    const placed = [], phases = [];
+    // Inner rings have the least room, so they choose first.
+    const order = planes.map((_, index) => index).sort((i, j) => planes[i][0] - planes[j][0] || i - j);
+    order.forEach(index => {
+      const plane = planes[index];
+      let best, bestScore = -Infinity;
+      for (let step = 0; step < 96; step++) {
+        const angle = plane[4] + step * Math.PI / 48 * (step % 2 ? 1 : -1) / 2;
+        const p = orbitalPoint(index, angle, geometry);
+        const fromEarth = Math.hypot(p.left - geometry.cx, p.top - geometry.cy) - geometry.radius - size * .62;
+        const fromIcons = Math.min(Infinity, ...placed.map(q => Math.max(Math.abs(q.left - p.left), Math.abs(q.top - p.top)) - size - 6));
+        const inFrame = Math.min(p.left - size / 2, geometry.width - p.left - size / 2, p.top - size / 2, geometry.height - p.top - size / 2);
+        const score = Math.min(fromEarth, fromIcons, inFrame, 24) - step * .05;
+        if (score > bestScore) { bestScore = score; best = { angle, point: p }; }
+      }
+      placed.push(best.point);
+      phases[index] = best.angle;
+    });
+    return phases;
+  }
+  let phases = planes.map(p => p[4]);
+  function place(item, point) {
+    item.style.left = `${point.left}px`;
+    item.style.top = `${point.top}px`;
+    item.style.zIndex = point.zIndex;
+  }
   function updateBackdrop() {
     const end = system.querySelector('.orbit-scene').getBoundingClientRect().bottom;
     const blend = Math.max(0, Math.min(1, (innerHeight * .55 - end) / (innerHeight * .55)));
     system.style.setProperty('--world-blend', blend.toFixed(3));
     backdrop.style.setProperty('--world-blend', blend.toFixed(3));
+    // Recomputed on every frame: scrolling back up returns roles to the page and takes them out of the backdrop.
     const atEnd = scrollY + innerHeight >= document.documentElement.scrollHeight - 4;
-    sections.forEach(section => {
-      if (atEnd || section.querySelector('.text').getBoundingClientRect().bottom <= innerHeight * .35) passed.add(section.id);
-    });
+    const passed = new Set(sections.filter(section => atEnd || section.querySelector('.text').getBoundingClientRect().bottom <= innerHeight * .35).map(section => section.id));
     if (!paused && !reduced.matches) backgroundAngle = scrollY * .025;
     collected.forEach((item, index) => {
       item.classList.toggle('collected', passed.has(item.dataset.role));
-      const angle = (-90 + index * 40 + backgroundAngle) * Math.PI / 180;
-      item.style.left = `${50 + 37 * Math.cos(angle)}%`;
-      item.style.top = `${50 + 37 * Math.sin(angle)}%`;
+      place(item, orbitalPoint(index, planes[index][4] + backgroundAngle * Math.PI / 180 * planes[index][1], backdropGeometry));
     });
   }
   function update(syncURL) {
@@ -185,7 +278,7 @@ footer{width:min(1120px,calc(100% - 40px));margin:auto;padding:24px 0 40px;color
     plain.forEach(a => { a.href = id ? `plain.html?at=${id}` : 'plain.html'; });
   }
   addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(() => update(true)); } }, { passive: true });
-  addEventListener('resize', () => update(true));
+  addEventListener('resize', () => { prepareOrbit(); update(true); });
 
   // Native motion keeps labels upright. Stop it while a person aims, reads or navigates by keyboard.
   const system = document.querySelector('.system');
@@ -197,20 +290,54 @@ footer{width:min(1120px,calc(100% - 40px));margin:auto;padding:24px 0 40px;color
     animations.forEach(animation => play ? animation.play() : animation.pause());
   }
   function prepareOrbit() {
+    const times = animations.map(animation => animation.currentTime ?? 0);
     animations.forEach(animation => animation.cancel());
     animations = [];
+    const scene = system.querySelector('.orbit-scene');
+    const geometry = globeLayout(scene, '.earth svg', { resize: true });
+    backdropGeometry = globeLayout(backdrop.querySelector('.background-system'), '.background-earth svg', { pad: 40 });
+    const items = [...system.querySelectorAll('ol > li')];
+    phases = restingPhases(geometry, items[0].getBoundingClientRect().width || 44);
+    const [far, near] = system.querySelectorAll('.orbit-tracks');
+    [far, near].forEach(svg => { svg.setAttribute('viewBox', `0 0 ${geometry.width} ${geometry.height}`); svg.replaceChildren(); });
     toggle.hidden = reduced.matches || !Element.prototype.animate;
-    if (toggle.hidden) return;
-    system.querySelectorAll('ol > li').forEach((item, index) => {
-      const frames = Array.from({ length: 73 }, (_, step) => {
-        const angle = (-90 + index * 40 + step * 5) * Math.PI / 180;
-        return { left: `${50 + 37 * Math.cos(angle)}%`, top: `${50 + 37 * Math.sin(angle)}%` };
+    items.forEach((item, index) => {
+      const points = Array.from({ length: 73 }, (_, step) => orbitalPoint(index, phases[index] + step * Math.PI / 36, geometry));
+      place(item, points[0]);
+      // Split the ring where it passes behind the planet; the far arc sits under Earth, the near arc over it.
+      [far, near].forEach(svg => {
+        const isNear = svg === near;
+        let d = '';
+        points.forEach((p, step) => {
+          if (p.near !== isNear) return;
+          d += `${step && points[step - 1].near === isNear ? 'L' : 'M'}${p.left.toFixed(2)} ${p.top.toFixed(2)}`;
+        });
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('class', 'orbit-track');
+        path.dataset.role = marks[index].dataset.id;
+        path.setAttribute('d', d);
+        svg.append(path);
       });
-      animations.push(item.animate(frames, { duration: 180000, iterations: Infinity, easing: 'linear' }));
+      if (!toggle.hidden) {
+        // Far-side icons are a little smaller, so depth reads even where they do not cross the planet.
+        const frames = points.map(p => ({ left: `${p.left}px`, top: `${p.top}px`, zIndex: p.zIndex }));
+        frames.forEach((f, step) => { const s = Math.sin(phases[index] + step * Math.PI / 36); f.transform = `translate(-50%,-50%) scale(${(.92 + .08 * s).toFixed(3)})`; });
+        const animation = item.animate(frames, { duration: 70000 / planes[index][1], iterations: Infinity, easing: 'linear' });
+        animation.currentTime = times[index] ?? 0;
+        animations.push(animation);
+      }
     });
     const bounds = system.getBoundingClientRect();
     visible = bounds.bottom > 0 && bounds.top < innerHeight;
     syncOrbit();
+  }
+  function highlightOrbit(target) {
+    const link = target?.closest?.('.tab');
+    system.querySelectorAll('.orbit-track').forEach(path => path.classList.toggle('highlighted', path.dataset.role === link?.dataset.id));
+    if (link) {
+      const bounds = link.getBoundingClientRect();
+      link.parentElement.dataset.edge = bounds.left < 80 ? 'left' : bounds.right > innerWidth - 80 ? 'right' : 'middle';
+    }
   }
   toggle.addEventListener('click', () => {
     paused = !paused;
@@ -221,9 +348,10 @@ footer{width:min(1120px,calc(100% - 40px));margin:auto;padding:24px 0 40px;color
     syncOrbit();
   });
   system.addEventListener('pointerenter', syncOrbit);
-  system.addEventListener('pointerleave', syncOrbit);
-  system.addEventListener('focusin', syncOrbit);
-  system.addEventListener('focusout', () => queueMicrotask(syncOrbit));
+  system.addEventListener('pointerover', event => highlightOrbit(event.target));
+  system.addEventListener('pointerleave', () => { highlightOrbit(document.activeElement); syncOrbit(); });
+  system.addEventListener('focusin', event => { highlightOrbit(event.target); syncOrbit(); });
+  system.addEventListener('focusout', () => queueMicrotask(() => { highlightOrbit(document.activeElement); syncOrbit(); }));
   document.addEventListener('visibilitychange', syncOrbit);
   reduced.addEventListener('change', () => { prepareOrbit(); update(false); });
   if ('IntersectionObserver' in window) {
@@ -231,6 +359,9 @@ footer{width:min(1120px,calc(100% - 40px));margin:auto;padding:24px 0 40px;color
   }
   prepareOrbit();
   update(false);
+  if ('ResizeObserver' in window) {
+    new ResizeObserver(() => { prepareOrbit(); update(false); }).observe(system.querySelector('.orbit-scene'));
+  }
 })();
 </script>
 </body>

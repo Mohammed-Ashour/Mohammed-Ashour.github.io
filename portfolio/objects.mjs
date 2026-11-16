@@ -332,13 +332,24 @@ const ICONS = {
     L.forEach((row, j) => row.forEach((v, i) => g.rect(3 + i * 4, 18 + j * 2.5, 4, j === 3 ? 2 : 3, HEAT[v - 1])));
     g.box(2, 17, 26, 11, 'a');
   },
+  // A whole small globe matching the hero Earth; two satellites trade a signal that bends around its limb (radio occultation).
   spire(g) {
-    g.ell(14, 42, 21.4, 21.4, 'h');
-    g.ell(14, 42, 20.2, 20.2, (x, y) => vnoise(x / 3, y / 2, 8) > .62 || y < 24 ? 'i' : ((x - 14) * .7 + (y - 42) * .4 > 7 ? 'n' : 's'));
-    g.sprite(['b.....b', 'bbwwwbb', 'b.www.b', '...a...'], 0, 16);
-    g.sprite(['bwwb', 'b.gb', '.a..'], 23, 17);
-    const pts = [[4, 19], [7, 15], [11, 13], [14, 13], [17, 13], [21, 15], [24, 19]];
-    pts.slice(1).forEach((p, i) => g.line(pts[i][0], pts[i][1], p[0], p[1], 'a'));
+    const cx = 14, cy = 15.5, r = 7.4;
+    g.ell(cx, cy, r + 1, r + 1, 'h');
+    g.ell(cx, cy, r, r, (x, y) => {
+      const dx = x - cx, dy = y - cy, n = hash(Math.floor(dx / 2), Math.floor(dy / 2), 3);
+      let color = n > .62 ? (n > .84 ? 'L' : 'l') : 's';
+      if (dy < -r * .62) color = 'i';
+      const shade = (dx + dy * .6) / r;
+      if (shade > .75 || shade > .5 && (x + y) % 2 === 0) color = 'n';
+      return color;
+    });
+    for (let step = 0; step <= 28; step += 2) {
+      const angle = Math.PI * (1.12 + .76 * step / 28);
+      g.set(Math.round(cx + Math.cos(angle) * 11.2), Math.round(cy + Math.sin(angle) * 11.2), 'a');
+    }
+    g.sprite(['bb.bb', 'bbwbb', '..w..'], 0, 8);
+    g.sprite(['bb.bb', 'bbwbb', '..w..'], 23, 8);
   },
   yaoota(g) {
     g.rect(1, 3, 26, 22, 'k'); g.box(1, 3, 26, 22, 'w'); g.rect(1, 3, 26, 2, 'w');

@@ -21,7 +21,7 @@ function headerLayout() {
   const glyphs = [...document.querySelectorAll('header h1, header .lead, header .links a')].map(e => { const r = document.createRange(); r.selectNodeContents(e); return r.getBoundingClientRect(); });
   const tabs = [...document.querySelectorAll('.system .tab')].map(t => {
     const r = t.getBoundingClientRect();
-    return { id: t.dataset.id, r, nmTop: t.querySelector('.nm').getBoundingClientRect().top, inside: [...t.querySelectorAll('.wbox,.nm,.yr')].every(c => { const b = c.getBoundingClientRect(); return !b.width || b.left >= r.left - 1 && b.right <= r.right + 1; }) };
+    return { id: t.dataset.id, r, nmTop: t.querySelector('.nm').getBoundingClientRect().top, inside: [...t.querySelectorAll('.wbox,.nm,.yr')].every(c => { const b = c.getBoundingClientRect(); return !b.width || getComputedStyle(c).visibility === 'hidden' || b.left >= r.left - 1 && b.right <= r.right + 1; }) };
   });
   const earth = document.querySelector('.earth').getBoundingClientRect();
   const svg = document.querySelector('.earth svg'), paint = svg.getBBox(), view = svg.viewBox.baseVal;
@@ -30,7 +30,7 @@ function headerLayout() {
   const orbit = document.querySelector('.system ol').getBoundingClientRect();
   return {
     earthCentered: Math.abs((earth.left + earth.right - orbit.left - orbit.right) / 2) <= 1 && Math.abs((earth.top + earth.bottom - orbit.top - orbit.bottom) / 2) <= 1,
-    orbitClear: tabs.every(t => !hit(t.r, earthPaint)),
+    orbitClear: tabs.every(t => !hit(t.r, earthPaint) || [1, 3].includes(Number(getComputedStyle(document.querySelector(`.tab[data-id="${t.id}"]`).parentElement).zIndex))),
     plainCovers: glyphs.some(g => hit(g, plain) || hit(g, bar)),
     nameClear: document.querySelector('h1').getBoundingClientRect().top >= bar.bottom,
     outside: tabs.filter(t => !t.inside).map(t => t.id),
@@ -47,7 +47,7 @@ function assertHeader(m, label, { maxBar }) {
   assert(m.nameClear, `${label}: name starts under the bar`);
   assert.deepEqual(m.outside, [], `${label}: navigation icon or label leaves its column`);
   assert(!m.tabOverlap, `${label}: navigation items overlap`);
-  assert(m.earthCentered && m.orbitClear, `${label}: icons should sit around a centered Earth without covering it`);
+  assert(m.earthCentered && m.orbitClear, `${label}: icons should use front/back layers around the centered Earth`);
   assert(m.barHeight <= maxBar, `${label}: sticky bar is ${Math.round(m.barHeight)}px tall`);
   assert(!m.overflow, `${label}: horizontal overflow`);
   assert(m.centeredName && m.centeredLabel, `${label}: introduction and reading label must be centered`);
@@ -166,13 +166,14 @@ async function pageDownThrough(page, label) {
   assert.deepEqual(marked, IDS.filter(id => marked.includes(id)), `${label}: marked role only moves forward`);
   assert(marked[0] === 'hydrosat' && marked.at(-1) === 'school', `${label}: Page Down marks roles through to the last, got ${marked}`);
 }
-// Sample a complete orbit, not just its initial arrangement, to catch moving-label collisions.
+// Sample the tilted orbital planes for clipping and front/back depth around Earth.
 function orbitLayout() {
   const items = [...document.querySelectorAll('.system ol > li')];
   const animations = items.flatMap(item => item.getAnimations());
   animations.forEach(animation => animation.pause());
   const hit = (a, b) => Math.min(a.right, b.right) - Math.max(a.left, b.left) > .5 && Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top) > .5;
   const issues = [];
+  let backCrossings = 0, frontCrossings = 0;
   for (let step = 0; step < 72; step++) {
     animations.forEach(animation => { animation.currentTime = step * 2500; });
     const boxes = items.map(item => item.getBoundingClientRect());
@@ -181,12 +182,16 @@ function orbitLayout() {
     const earth = new DOMRect(bounds.left + (paint.x - view.x) * scale, bounds.top + (paint.y - view.y) * scale, paint.width * scale, paint.height * scale);
     const toggle = document.querySelector('.orbit-toggle').getBoundingClientRect();
     boxes.forEach((box, index) => {
-      boxes.slice(index + 1).forEach((other, offset) => { if (hit(box, other)) issues.push(`${step}:${index}/${index + offset + 1}`); });
-      if (hit(box, earth) || hit(box, toggle)) issues.push(`${step}:${index}/center`);
+      if (hit(box, earth)) {
+        const layer = Number(getComputedStyle(items[index]).zIndex);
+        if (layer < 2) backCrossings++;
+        if (layer > 2) frontCrossings++;
+      }
+      if (hit(box, toggle)) issues.push(`${step}:${index}/control`);
       if (box.left < -1 || box.right > innerWidth + 1) issues.push(`${step}:${index}/clipped`);
     });
   }
-  return { count: animations.length, issues: issues.slice(0, 10) };
+  return { count: animations.length, periods: new Set(animations.map(a => a.effect.getTiming().duration)).size, tracks: new Set([...document.querySelectorAll('.orbit-track')].map(t => t.dataset.role)).size, backCrossings, frontCrossings, issues: issues.slice(0, 10) };
 }
 const largerText = z => { const all = [...document.querySelectorAll('html, body, body *')]; const sizes = all.map(e => parseFloat(getComputedStyle(e).fontSize)); all.forEach((e, i) => e.style.setProperty('font-size', sizes[i] * z + 'px', 'important')); };
 
@@ -253,6 +258,8 @@ try {
 
     // Navigation scrolls to a role; it never hides the others.
     await page.evaluate(() => scrollTo(0, 0)); await settle(page);
+    // Scrolling back up returns every role to the page: nothing stays collected in the backdrop.
+    assert.equal(await page.locator(".collected-icon.collected").count(), 0, `${label}: scrolling back to the top clears the background orbit`);
     await page.locator('.system .tab[href="#yaoota"]').click(); await settle(page);
     await assertAnchored(page, 'yaoota', `${label} nav click`);
     await assertReading(page, 'yaoota', `${label} nav click`);
@@ -348,10 +355,13 @@ try {
     assert(await moving.locator('.system li').evaluateAll(items => items.every(item => item.getAnimations().every(a => a.playState === 'paused'))), 'Explicit pause persists after leaving navigation');
     const sample = await moving.evaluate(orbitLayout);
     assert.equal(sample.count, 9, 'Every icon has an upright orbital path');
-    assert.deepEqual(sample.issues, [], `${width}: full orbit must remain readable and collision-free`);
+    assert.equal(sample.tracks, 9, 'Each role has its own orbital plane');
+    assert(sample.periods > 1, 'Different orbits must not move as one carousel');
+    assert(sample.backCrossings > 0 && sample.frontCrossings > 0, 'Icons must travel behind and in front of Earth');
+    assert.deepEqual(sample.issues, [], `${width}: orbit targets must remain on screen and clear of controls`);
     if (width === 320) {
       await moving.evaluate(largerText, 2);
-      assert.deepEqual((await moving.evaluate(orbitLayout)).issues, [], 'Enlarged orbit labels must remain collision-free');
+      assert.deepEqual((await moving.evaluate(orbitLayout)).issues, [], 'Enlarged-text orbit targets must remain on screen and clear of controls');
     }
     await moving.emulateMedia({ reducedMotion: 'reduce' });
     await moving.waitForFunction(() => document.querySelector('.orbit-toggle').hidden);
