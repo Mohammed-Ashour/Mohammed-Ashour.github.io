@@ -395,7 +395,7 @@ export function scene(id) {
   SCENES[id](g);
   return `<svg class="px scene s-${id}" viewBox="0 0 100 100" shape-rendering="crispEdges" aria-hidden="true" focusable="false">${g.svg()}</svg>`;
 }
-// The Downlink-style Earth: textured surface, atmospheric edge, ground dish and processing symbols.
+// The Downlink-style Earth: textured surface and a thin atmospheric edge.
 export function earth() {
   const g = new Grid(100, 100), cx = 50, cy = 57, radius = 37;
   g.ell(cx, cy, radius + 1, radius + 1, 'h');
@@ -409,17 +409,6 @@ export function earth() {
     if (shade > .8 || shade > .55 && (x + y) % 2 === 0) color = 'n';
     return color;
   });
-  // A small ground station and four data-processing steps sit on the northern limb.
-  g.sprite(['w.....w', '.w...w.', '..www..', '...w...', '..www..'], 31, 13);
-  g.rect(34, 18, 1, 6, 'w');
-  for (const x of [45, 57, 69, 81]) {
-    g.rect(x, 11, 9, 9, 'k'); g.box(x, 11, 9, 9, 'w');
-  }
-  g.rect(48, 14, 3, 3, 'g');
-  g.line(60, 15, 63, 15, 'w'); g.line(62, 13, 62, 17, 'w');
-  g.line(71, 15, 73, 17, 'e'); g.line(73, 17, 76, 13, 'e');
-  g.line(84, 15, 87, 15, 'a'); g.line(85, 13, 87, 15, 'a'); g.line(85, 17, 87, 15, 'a');
-  for (const x of [54, 66, 78]) g.rect(x, 15, 3, 1, 'g');
   return `<svg class="px earth-art" viewBox="0 0 100 100" shape-rendering="crispEdges" aria-hidden="true" focusable="false">${g.svg()}</svg>`;
 }
 
