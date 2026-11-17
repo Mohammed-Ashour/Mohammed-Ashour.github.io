@@ -18,6 +18,11 @@ await copyFile('cv.css', 'dist/cv.css');
 await copyFile('cv.md', 'dist/cv.md');
 await writeFile('dist/.nojekyll', '');
 await copyFile('CNAME', 'dist/CNAME');
+// Self-hosted serif so the homepage looks the same on every platform (latin subset only).
+await mkdir('dist/fonts', { recursive: true });
+for (const style of ['normal', 'italic']) {
+  await copyFile(`node_modules/@fontsource-variable/source-serif-4/files/source-serif-4-latin-wght-${style}.woff2`, `dist/fonts/source-serif-4-${style}.woff2`);
+}
 // The pixel Earth doubles as the favicon; it carries its own palette because it loads outside the page.
 const palette = await readFile('portfolio/palette.css', 'utf8');
 await writeFile('dist/favicon.svg', earth().replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" ').replace('>', `><style>${palette}</style>`));
