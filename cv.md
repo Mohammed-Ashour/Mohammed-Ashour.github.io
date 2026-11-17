@@ -31,7 +31,7 @@ Senior Software Engineer with **10+ years of experience** building data-intensiv
 
 **Jan 2022 - Jul 2025**
 
-- Designed and implemented **real-time data processing systems** for GNSS-R and GNSS-RO satellite data, meeting strict latency and reliability requirements for customers including **NASA, NOAA, and EUMETSAT**.
+- Designed and implemented **real-time data processing systems** for GNSS-R and GNSS-RO satellite data, meeting strict latency and reliability requirements for customers including **NASA, NOAA, ESA, and EUMETSAT**.
 - Led engineering for an **ML-based sea ice detection system**, collaborating with scientists from initial experimentation through production deployment.
 - Reduced AWS infrastructure costs by approximately **$250K annually** through architecture and infrastructure optimization.
 - Built and maintained **CI/CD pipelines and Infrastructure as Code** for scalable and reliable cloud deployments.
