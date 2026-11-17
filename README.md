@@ -6,6 +6,7 @@ A static software-engineering portfolio with role-specific pixel illustrations, 
 
 - `cv.md` is the professional-content source for the portfolio, plain CV and PDF.
 - `portfolio/index.html`, `portfolio/objects.mjs` and `portfolio/palette.css` define the interactive homepage. Its role illustrations are decorative, with no personal avatar; every role has ordinary HTML details.
+- `portfolio/work.mjs` lists the side projects and blog posts shown under "Selected work". The three highlights under the introduction quote facts from `cv.md`; the build fails if `cv.md` stops containing them.
 - `index.html` is the plain CV template. `cv.css` controls its screen and A4 print layout.
 - `scripts/build-portfolio.mjs` maps the CV's existing headings to role sections and renders canonical Markdown details. If roles or required headings change, update its explicit mapping; the build fails rather than dropping roles silently.
 - `scripts/build.mjs` generates `dist/index.html`, `dist/plain.html`, the source Markdown, styles and `Mohamed-Ashour-CV.pdf`.

@@ -48,6 +48,11 @@ h1{font-size:48px;line-height:1.1;font-weight:400;letter-spacing:-.015em;margin:
 .focus{margin:0 auto 18px;font-size:19px;font-style:italic;max-width:40rem}
 .focus .place{display:block;color:var(--muted);font-style:normal;font-size:16px;letter-spacing:.04em}
 .lead{margin:0 auto 20px;max-width:34rem;color:var(--muted);font-size:16px}
+/* Three facts from cv.md, readable before the orbit. */
+.proof{list-style:none;margin:0 auto 20px;padding:12px 0;max-width:44rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,6em),1fr));gap:20px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.proof li{display:flex;flex-direction:column;gap:2px;min-width:0}
+.proof strong{color:var(--acc);font-size:21px;font-weight:600;line-height:1.25}
+.proof span{color:var(--muted);font-size:14px;line-height:1.35}
 .links{display:flex;justify-content:center;flex-wrap:wrap;gap:.5rem 1.5rem;margin:0;font-size:16px}
 .links a{display:inline-flex;align-items:center;gap:8px;min-height:32px}
 .contact-icon{display:block;width:20px;height:20px;flex:none;image-rendering:pixelated}
@@ -71,6 +76,7 @@ h1{font-size:48px;line-height:1.1;font-weight:400;letter-spacing:-.015em;margin:
 .key a:hover .k-yr,.key a.on .k-yr{color:var(--acc)}
 .system li.lit .icon{filter:drop-shadow(0 0 6px rgba(241,178,74,.8))}
 .system li.lit .nm{display:block}
+.hint{margin:4px auto 10px;text-align:center;color:var(--muted);font-size:14px;font-style:italic}
 .orbit-toggle{display:block;margin:8px auto;min-width:64px;min-height:36px;border:0;padding:4px 8px;background:none;color:var(--muted);font:inherit;font-size:13px;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
 .orbit-toggle[hidden]{display:none}
 .tab{flex:1;display:flex;align-items:center;justify-content:center;min-height:44px;padding:2px;color:var(--muted);text-decoration:none;font-size:14px;line-height:1.3;position:relative}
@@ -124,6 +130,31 @@ header,main,footer{position:relative;z-index:1}
 .pts li{position:relative;padding-left:18px;margin:0 0 14px}
 .pts li::before{content:"";position:absolute;left:0;top:.65em;width:6px;height:6px;background:var(--acc)}
 .text p{margin-top:0}
+/* Selected work: side projects and writing, after the career. */
+.work{width:min(1120px,calc(100% - 48px));margin:0 auto;padding:8px 0 56px}
+.work .era{width:auto;margin:32px 0 28px}
+.work h2{font-size:34px;line-height:1.15;font-weight:400;margin:0 0 6px}
+.work .intro{margin:0 0 28px;color:var(--muted);max-width:44rem}
+.cards{list-style:none;margin:0 0 40px;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.card{position:relative;display:flex;flex-direction:column;padding:20px;border:1px solid var(--line);background:rgba(28,38,73,.55)}
+.card:hover,.card:focus-within{border-color:var(--acc)}
+.card .icon{width:56px;margin:0 0 14px}
+.card .kind{margin:0;color:var(--muted);font-size:13px;letter-spacing:.1em;text-transform:uppercase}
+.card h3{margin:0 0 8px;font-size:24px;font-weight:400}
+.card h3 a{color:var(--text);text-decoration:none}
+.card h3 a::after{content:"";position:absolute;inset:0}
+.card p.desc{margin:0 0 16px;font-size:16px}
+.card .tech{margin:0 0 16px}
+.card .chip{white-space:normal}
+.card{min-width:0;overflow-wrap:anywhere}
+.card .go{margin:auto 0 0;font-size:15px;font-weight:600;color:var(--acc)}
+.card .go a{position:relative;z-index:1;font-weight:400;margin-left:12px}
+.posts-h{margin:0 0 10px;font-size:19px;font-weight:400;font-style:italic}
+.posts{list-style:none;margin:0 0 16px;padding:0;max-width:44rem}
+.posts li{display:flex;justify-content:space-between;gap:16px;align-items:baseline;padding:8px 0;border-bottom:1px dashed var(--line)}
+.posts a{min-width:0}
+.posts .k-yr{color:var(--muted);font-size:14px;font-variant-numeric:tabular-nums;flex:none}
+.more{display:flex;flex-wrap:wrap;gap:8px 24px;margin:0;font-size:16px}
 footer{width:min(1120px,calc(100% - 40px));margin:auto;min-height:60vh;padding:72px 0 40px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-top:1px solid var(--line)}
 footer h2{font-size:34px;font-weight:400;margin:0 0 8px}
 footer .pitch{margin:0 0 28px;color:var(--muted);max-width:32rem}
@@ -134,7 +165,7 @@ footer .pitch{margin:0 0 28px;color:var(--muted);max-width:32rem}
 .btn .contact-icon{width:18px;height:18px}
 footer .small{font-size:15px;color:var(--muted);margin:0}
 @media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
-@media(min-width:761px) and (max-width:1023px){.earth{width:240px}.yr{font-size:12px}}
+@media(min-width:761px) and (max-width:1023px){.earth{width:240px}.yr{font-size:12px}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){
   :root{font-size:16px}
   .now-inner{gap:8px}
@@ -144,17 +175,22 @@ footer .small{font-size:15px;color:var(--muted);margin:0}
   .links{display:grid;grid-template-columns:repeat(2,minmax(0,auto));justify-content:center;gap:.25rem 2rem}
   .kicker{font-size:12px}
   .focus{font-size:17px}
-  .key{font-size:13px}
+  .key{font-size:14px;gap:0 16px}
+  .key a{padding:8px 4px}
+  .proof{gap:12px;padding:12px 0;margin-bottom:18px}
+  .proof strong{font-size:17px}
+  .proof span{font-size:13px}
+  .hint{font-size:14px}
   .here .yr{display:none}
   header{margin-top:22px}
   h1{font-size:clamp(28px,7.7vw,36px)}
   .system{margin-top:24px}
   .system ol{height:max(270px,17em)}
   .earth{width:min(112px,25vw)}
-  .orbit-toggle{font-size:12px}
-  .system li{width:36px;min-height:36px}
+  .orbit-toggle{font-size:13px;min-height:44px}
+  .system li{width:44px;min-height:44px}
   .wbox{width:36px;height:36px}.icon{width:32px}
-  .tab{font-size:12px;min-height:36px;padding:0}
+  .tab{font-size:14px;min-height:44px;padding:0}
   .tab .yr{display:none}
   .panel{width:calc(100% - 40px);display:flex;flex-direction:column;gap:20px;padding:24px 0}
   .big{width:min(240px,55vw,32vh);flex:none;align-self:center}
@@ -162,9 +198,14 @@ footer .small{font-size:15px;color:var(--muted);margin:0}
   .org{font-size:30px}
   .era{width:calc(100% - 40px)}
   footer h2{font-size:28px}
+  .work{width:calc(100% - 40px)}
+  .work h2{font-size:30px}
+  .cards{grid-template-columns:1fr;gap:16px}
   .pts li{margin-bottom:12px}
 }
 @media(max-width:480px){.pdf{display:none}}
+/* The smallest phones cannot fit 44px targets around the orbit without overlap. */
+@media(max-width:379px){.system li{width:36px;min-height:36px}.tab{min-height:36px}}
 @media print{.now,.system,.big,.world-backdrop,.era,.cta{display:none}html,:root{background:#fff;color:#000}.panel{display:block;width:auto;padding:20px 0;min-height:0}.panel:last-child{min-height:0}}
 </style>
 </head>
@@ -183,6 +224,11 @@ footer .small{font-size:15px;color:var(--muted);margin:0}
   <h1>Mohamed Ashour</h1>
   <p class="focus">{{= ESC(headline.slice(1).join(' · ')) }}{{= location ? `<span class="place">${ESC(location)}</span>` : '' }}</p>
   <p class="lead">{{= ESC(lead) }}</p>
+  <ul class="proof" aria-label="Highlights">
+    <li><strong>$250K/yr</strong><span>AWS costs cut at Spire</span></li>
+    <li><strong>Satellite data</strong><span>pipelines for NASA, NOAA, ESA &amp; EUMETSAT</span></li>
+    <li><strong>Tech lead</strong><span>architecture of satellite imagery pipelines at Hydrosat</span></li>
+  </ul>
   {{= links() }}
 </header>
 <main id="career">
@@ -197,6 +243,7 @@ footer .small{font-size:15px;color:var(--muted);margin:0}
     </div>
     <button class="orbit-toggle" type="button" aria-label="Pause orbit animation" aria-pressed="false" hidden>Pause</button>
   </nav>
+  <p class="hint">Each icon is a role. Pick one to jump to it.</p>
   <ol class="key" aria-label="Career at a glance">
 {{= ITEMS.map(it => `      <li><a href="#${it.id}" data-id="${it.id}"><span class="k-nm">${ESC(it.name)}</span>${/\d/.test(it.years) ? `<span class="k-yr">${ESC(it.years)}</span>` : ''}</a></li>`).join('\n') }}
   </ol>
@@ -205,6 +252,19 @@ footer .small{font-size:15px;color:var(--muted);margin:0}
     <div class="text">${details(it.id)}</div>
   </section>`).join('\n') }}
 </main>
+<section class="work" id="work" aria-labelledby="work-h">
+  <p class="era">Beyond the day job</p>
+  <h2 id="work-h">Selected work</h2>
+  <p class="intro">Outside work I build small open-source tools, write about software engineering and data systems, and make videos about Python and machine learning.</p>
+  <ul class="cards">
+{{= PROJECTS.map(p => `    <li class="card">${icon(p.id)}<p class="kind">${ESC(p.kind)}</p><h3><a href="${ESC(p.href)}">${ESC(p.name)}</a></h3><p class="desc">${ESC(p.text)}</p><p class="tech">${p.tech.map(t => `<span class="chip">${ESC(t)}</span>`).join('<span class="sep">, </span>')}</p><p class="go">${ESC(p.cta)} →${p.more ? `<a href="${ESC(p.more[0])}">${ESC(p.more[1])}</a>` : ''}</p></li>`).join('\n') }}
+  </ul>
+  <h3 class="posts-h">More writing</h3>
+  <ul class="posts">
+{{= POSTS.map(([title, href, year]) => `    <li><a href="${ESC(href)}">${ESC(title)}</a><span class="k-yr">${year}</span></li>`).join('\n') }}
+  </ul>
+  <p class="more"><a href="{{= ESC(blog) }}">All posts on the blog</a><a href="{{= ESC(youtube) }}">YouTube channel</a></p>
+</section>
 <footer>
   <h2>Get in touch</h2>
   <p class="pitch">Building satellite data pipelines, data platforms or ML infrastructure? I'd be glad to talk.</p>
@@ -218,7 +278,9 @@ footer .small{font-size:15px;color:var(--muted);margin:0}
   const plain = [...document.querySelectorAll('#plain, .plain-foot')];
   const now = document.getElementById('now'), here = document.getElementById('here');
   const label = Object.fromEntries(marks.map(t => [t.dataset.id, [t.querySelector('.nm').textContent, t.querySelector('.yr').textContent]]));
+  label.work = ['Selected work', 'Projects & writing'];
   const backdrop = document.querySelector('.world-backdrop');
+  const work = document.getElementById('work');
   const collected = [...backdrop.querySelectorAll('.collected-icon')];
   // Each role circles Earth on its own inclined plane, viewed from slightly above.
   // [radius in Earth radii, relative speed, on-screen tilt, flatness (cos of inclination), preferred phase]
@@ -314,6 +376,7 @@ footer .small{font-size:15px;color:var(--muted);margin:0}
     queued = false;
     let id = null;
     for (const s of sections) if (s.getBoundingClientRect().top <= innerHeight * .35) id = s.id;
+    if (work.getBoundingClientRect().top <= innerHeight * .35) id = 'work';
     if (syncURL && location.hash !== (id ? '#' + id : '')) {
       history.replaceState(null, '', id ? '#' + id : location.pathname + location.search);
     }
@@ -327,7 +390,7 @@ footer .small{font-size:15px;color:var(--muted);margin:0}
       const yr = document.createElement('span'); yr.className = 'yr'; yr.textContent = label[id][1];
       here.append(label[id][0], yr);
     }
-    plain.forEach(a => { a.href = id ? `plain.html?at=${id}` : 'plain.html'; });
+    plain.forEach(a => { a.href = id && id !== 'work' ? `plain.html?at=${id}` : 'plain.html'; });
   }
   addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(() => update(true)); } }, { passive: true });
   addEventListener('resize', () => { prepareOrbit(); update(true); });

@@ -1,7 +1,9 @@
 import { readFile } from 'node:fs/promises';
 import { marked } from 'marked';
 import { icon, scene, earth, contactIcon, OBJ_CSS } from '../portfolio/objects.mjs';
+import { PROJECTS, POSTS } from '../portfolio/work.mjs';
 
+const contactLinksFrom = (markdown, host) => markdown.match(new RegExp(`https://[^)\\s]*${host.replace('.', '\\.')}[^)\\s]*`))?.[0] ?? '';
 const ESC = value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 const plain = text => text.replaceAll('**', '').trim();
 // Display-only typography: ranges get an en dash on the homepage (cv.md and the plain CV stay unchanged).
@@ -19,6 +21,10 @@ const roles = [
 
 // Parse the established CV headings, failing the build rather than silently dropping sections.
 export async function buildPortfolio(markdown) {
+  // The homepage highlights quote these facts; fail the build if the CV stops supporting them.
+  for (const fact of ['$250K annually', 'NASA, NOAA, ESA, and EUMETSAT', 'architecture and development of **satellite imagery processing pipelines**']) {
+    if (!markdown.includes(fact)) throw new Error(`Homepage highlight no longer backed by cv.md: ${fact}`);
+  }
   const tokens = marked.lexer(markdown.replaceAll('<!-- page-break -->', ''));
   function section(text, depth) {
     const start = tokens.findIndex(t => t.type === 'heading' && t.depth === depth && t.text === text);
@@ -71,7 +77,7 @@ export async function buildPortfolio(markdown) {
     + '<a class="btn" href="Mohamed-Ashour-CV.pdf" download>Download PDF</a>'
     + contactLinks.filter(t => /linkedin|github/.test(t.href)).map(t => `<a class="btn" href="${ESC(t.href)}">${new URL(t.href).hostname.includes('linkedin') ? 'LinkedIn' : 'GitHub'}</a>`).join('') + '</p>';
   const scope = {
-    ESC, ITEMS: items, lead, headline, location, links, ctas, icon, scene, earth,
+    ESC, ITEMS: items, PROJECTS, POSTS, youtube: contactLinksFrom(markdown, 'youtube.com'), blog: contactLinksFrom(markdown, 'blog.'), lead, headline, location, links, ctas, icon, scene, earth,
     orbit: index => {
       const angle = (-90 + index * 40) * Math.PI / 180;
       return `left:${(50 + 37 * Math.cos(angle)).toFixed(4)}%;top:${(50 + 37 * Math.sin(angle)).toFixed(4)}%`;

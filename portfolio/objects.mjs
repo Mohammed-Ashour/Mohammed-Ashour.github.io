@@ -398,6 +398,29 @@ const ICONS = {
     for (let r = 0; r < 3; r++) { g.line(3, 18 + r * 2.5, 11, 16 + r * 2.5, 'g'); g.line(17, 16 + r * 2.5, 25, 18 + r * 2.5, 'g'); }
     g.rect(0, 26, 28, 1, 'C');
   },
+  // Khonsu: a full moon resting in a crescent, with a satellite passing overhead.
+  khonsu(g) {
+    for (const [x, y] of [[3, 4], [6, 1], [26, 13], [2, 15]]) g.set(x, y, 'a');
+    g.ell(14, 18, 10, 9, (x, y) => (x + .5 - 14) ** 2 + (y + .5 - 13.5) ** 2 <= 9.4 ** 2 ? null : (x > 17 ? 'M' : 'a'));
+    g.ell(14, 12, 6, 6, (x, y) => (x + .5 - 14) + (y + .5 - 12) > 4 ? 'g' : 'w');
+    g.rect(11, 10, 2, 2, 'g'); g.set(16, 14, 'g'); g.set(15, 8, 'g');
+    g.sprite(['bb.bb', 'bbwbb', '..a..'], 20, 2);
+  },
+  // LODVault: a stack of flashcards, the front one in Luxembourg's colours.
+  lodvault(g) {
+    g.box(8, 2, 18, 13, 'g'); g.box(5, 5, 18, 13, 'G');
+    g.rect(2, 9, 18, 16, 'w');
+    g.rect(2, 9, 18, 5, 'c'); g.rect(2, 20, 18, 5, 'h');
+    g.rect(5, 16, 8, 1, 'G'); g.rect(5, 18, 5, 1, 'g');
+    g.sprite(['...a', '..a.', 'a.a.', '.a..'], 22, 20);
+  },
+  // A write-up: a page with a satellite and lines of text.
+  writeup(g) {
+    g.poly([[4, 2], [19, 2], [24, 7], [24, 26], [4, 26]], 'w');
+    g.poly([[19, 2], [24, 7], [19, 7]], 'g');
+    g.sprite(['bb.bb', 'bbkbb', '..a..'], 7, 5);
+    for (let r = 0; r < 5; r++) g.rect(7, 12 + r * 3, r % 2 ? 11 : 15, 1, 'g');
+  },
 };
 
 // Keep the complete illustration, without a decorative circle or circular crop.
