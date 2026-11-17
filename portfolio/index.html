@@ -18,7 +18,9 @@
 <meta property="og:image:alt" content="Mohamed Ashour's career icons orbiting a pixel-art Earth">
 <meta name="twitter:card" content="summary_large_image">
 <style>
-:root{--bg:#141c38;--text:#efe8d8;--muted:#aab1c7;--acc:#f1b24a;--line:#3a4677;font:17px/1.6 "Iowan Old Style","Palatino Linotype",Palatino,"P052","URW Palladio L",Georgia,serif;color:var(--text);background:var(--bg)}
+@font-face{font-family:"Source Serif 4";font-style:normal;font-weight:200 900;font-display:swap;src:url(fonts/source-serif-4-normal.woff2) format("woff2")}
+@font-face{font-family:"Source Serif 4";font-style:italic;font-weight:200 900;font-display:swap;src:url(fonts/source-serif-4-italic.woff2) format("woff2")}
+:root{--bg:#141c38;--text:#efe8d8;--muted:#aab1c7;--acc:#f1b24a;--line:#3a4677;--chip:#1c2649;font:17px/1.6 "Source Serif 4","Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;color:var(--text);background:var(--bg)}
 {{= ART_CSS }}
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -35,11 +37,17 @@ a:hover{text-decoration-thickness:2px}
 .now-inner{width:min(1120px,calc(100% - 40px));min-height:48px;margin:auto;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:12px;padding:4px 0}
 .here{grid-column:2;max-width:44vw;min-width:0;margin:0;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .here .yr{color:var(--muted);font-size:14px;margin-left:.6em}
-.plain{grid-column:3;justify-self:end;max-width:100%;padding:4px 0;font-weight:600;text-align:right}
+.actions{grid-column:3;justify-self:end;display:flex;align-items:center;gap:18px;justify-content:flex-end;max-width:100%}
+.plain{padding:4px 0;font-weight:600;text-align:right;white-space:nowrap}
+.pdf{padding:4px 12px;border:1px solid var(--acc);color:var(--acc);text-decoration:none;font-weight:600;white-space:nowrap}
+.pdf:hover{background:var(--acc);color:var(--bg)}
 
 header{width:min(760px,calc(100% - 40px));margin:28px auto 0;text-align:center}
-h1{font-size:44px;line-height:1.1;font-weight:400;letter-spacing:-.01em;margin:16px 0 18px}
-.lead{margin:0 auto 16px;max-width:40rem}
+.kicker{margin:16px 0 4px;color:var(--acc);font-size:14px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+h1{font-size:48px;line-height:1.1;font-weight:400;letter-spacing:-.015em;margin:0 0 10px}
+.focus{margin:0 auto 18px;font-size:19px;font-style:italic;max-width:40rem}
+.focus .place{display:block;color:var(--muted);font-style:normal;font-size:16px;letter-spacing:.04em}
+.lead{margin:0 auto 20px;max-width:34rem;color:var(--muted);font-size:16px}
 .links{display:flex;justify-content:center;flex-wrap:wrap;gap:.5rem 1.5rem;margin:0;font-size:16px}
 .links a{display:inline-flex;align-items:center;gap:8px;min-height:32px}
 .contact-icon{display:block;width:20px;height:20px;flex:none;image-rendering:pixelated}
@@ -56,6 +64,13 @@ h1{font-size:44px;line-height:1.1;font-weight:400;letter-spacing:-.01em;margin:1
 .orbit-track.highlighted{stroke:var(--acc);opacity:.8}
 .earth{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:260px;max-width:100%;pointer-events:none;z-index:2;opacity:calc(1 - var(--world-blend,0) * .8)}
 .earth svg{display:block;width:100%;height:auto;image-rendering:pixelated}
+.key{position:relative;z-index:1;list-style:none;margin:0 auto 8px;width:calc(100% - 40px);padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:2px 20px;max-width:58rem;font-size:14px;line-height:1.3}
+.key a{color:var(--text);text-decoration:none;display:inline-flex;gap:.4em;align-items:baseline;padding:4px 2px}
+.key a:hover,.key a.on{color:var(--acc)}
+.key .k-yr{color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+.key a:hover .k-yr,.key a.on .k-yr{color:var(--acc)}
+.system li.lit .icon{filter:drop-shadow(0 0 6px rgba(241,178,74,.8))}
+.system li.lit .nm{display:block}
 .orbit-toggle{display:block;margin:8px auto;min-width:64px;min-height:36px;border:0;padding:4px 8px;background:none;color:var(--muted);font:inherit;font-size:13px;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
 .orbit-toggle[hidden]{display:none}
 .tab{flex:1;display:flex;align-items:center;justify-content:center;min-height:44px;padding:2px;color:var(--muted);text-decoration:none;font-size:14px;line-height:1.3;position:relative}
@@ -75,37 +90,61 @@ h1{font-size:44px;line-height:1.1;font-weight:400;letter-spacing:-.01em;margin:1
 /* The overview becomes a faint backdrop; only completed sections join its orbit. */
 .world-backdrop{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:var(--world-blend,0);overflow:hidden}
 .background-system{position:absolute;left:50%;top:54%;transform:translate(-50%,-50%);width:min(920px,100vw);height:min(700px,82vh)}
-.background-earth{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(440px,55vw);opacity:.05;z-index:2}
+.background-earth{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(440px,55vw);opacity:.035;z-index:2}
 .background-earth svg{display:block;width:100%;height:auto;image-rendering:pixelated}
 .collected-icon{position:absolute;transform:translate(-50%,-50%);width:40px;height:40px;opacity:0;transition:opacity .18s ease-out}
-.collected-icon.collected{opacity:.1}
+.collected-icon.collected{opacity:.06}
 .collected-icon svg{display:block;width:100%;height:100%;image-rendering:pixelated}
 header,main,footer{position:relative;z-index:1}
 @media(prefers-reduced-motion:reduce){.collected-icon{transition:none}}
 
 /* Balanced columns: illustration and text each keep their own space. */
 .panel{width:min(1120px,calc(100% - 48px));margin:auto;padding:32px 0;display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr);gap:clamp(32px,4.5vw,64px);align-items:start}
-.panel:last-child{min-height:calc(100vh - 4.5rem)}
 .big{width:100%;max-width:380px;justify-self:center;aspect-ratio:1}
+/* The illustration stays beside long role descriptions instead of leaving an empty column. */
+@media(min-width:761px){.big{position:sticky;top:calc(4.5rem + 24px)}}
+.era{width:min(1120px,calc(100% - 48px));margin:40px auto 0;display:flex;align-items:center;gap:16px;color:var(--muted);font-size:14px;letter-spacing:.14em;text-transform:uppercase}
+.era::before,.era::after{content:"";flex:1;height:1px;background:var(--line)}
+.panel.early{padding:20px 0}
+.panel.early .org{font-size:28px}
 .big svg{display:block;width:100%;height:100%;image-rendering:pixelated}
-@media(min-width:761px){#eaf .big,#elements .big,#freelance .big,#codescalers .big,#school .big{max-width:280px}}
+@media(min-width:761px){#school .big{max-width:280px}.panel.early .big{max-width:220px}}
 .text{min-width:0}
-.org{font-size:36px;line-height:1.15;font-weight:400;margin:0 0 12px}
+.org{font-size:34px;line-height:1.15;font-weight:400;margin:0 0 6px}
 .text h3{font-size:19px;font-weight:400;font-style:italic;margin:0 0 4px}
 .meta{margin:0 0 22px}
-.meta .title{display:block;font-style:italic}
+.meta .title{display:block;font-size:20px;font-weight:600}
 .meta .when{display:block;color:var(--muted);font-variant-numeric:tabular-nums;font-size:16px}
+.tech{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 20px}
+.tech-label{color:var(--muted);font-size:13px;letter-spacing:.1em;text-transform:uppercase;margin-right:4px}
+.chip{padding:1px 9px;background:var(--chip);border:1px solid var(--line);font-size:14px;line-height:1.6;white-space:nowrap}
+.sep{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .note{margin:0 0 12px;color:var(--muted);font-size:16px}
 .pts{list-style:none;margin:0 0 20px;padding:0}
 .pts li{position:relative;padding-left:18px;margin:0 0 14px}
 .pts li::before{content:"";position:absolute;left:0;top:.65em;width:6px;height:6px;background:var(--acc)}
 .text p{margin-top:0}
-footer{width:min(1120px,calc(100% - 40px));margin:auto;padding:24px 0 40px;color:var(--muted);font-size:15px;text-align:center}
+footer{width:min(1120px,calc(100% - 40px));margin:auto;min-height:60vh;padding:72px 0 40px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-top:1px solid var(--line)}
+footer h2{font-size:34px;font-weight:400;margin:0 0 8px}
+footer .pitch{margin:0 0 28px;color:var(--muted);max-width:32rem}
+.cta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:0 0 28px}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 20px;border:1px solid var(--acc);color:var(--acc);text-decoration:none;font-weight:600}
+.btn.primary{background:var(--acc);color:var(--bg)}
+.btn:hover{background:var(--acc);color:var(--bg)}
+.btn .contact-icon{width:18px;height:18px}
+footer .small{font-size:15px;color:var(--muted);margin:0}
 @media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 @media(min-width:761px) and (max-width:1023px){.earth{width:240px}.yr{font-size:12px}}
 @media(max-width:760px){
   :root{font-size:16px}
   .now-inner{gap:8px}
+  .pdf .long{display:none}
+  .pdf{padding:2px 8px}
+  .actions{gap:12px}
+  .links{display:grid;grid-template-columns:repeat(2,minmax(0,auto));justify-content:center;gap:.25rem 2rem}
+  .kicker{font-size:12px}
+  .focus{font-size:17px}
+  .key{font-size:13px}
   .here .yr{display:none}
   header{margin-top:22px}
   h1{font-size:clamp(28px,7.7vw,36px)}
@@ -113,17 +152,20 @@ footer{width:min(1120px,calc(100% - 40px));margin:auto;padding:24px 0 40px;color
   .system ol{height:max(270px,17em)}
   .earth{width:min(112px,25vw)}
   .orbit-toggle{font-size:12px}
-  .system li{width:32px;min-height:32px}
-  .wbox{width:32px;height:32px}.icon{width:28px}
-  .tab{font-size:12px;min-height:32px;padding:0}
+  .system li{width:36px;min-height:36px}
+  .wbox{width:36px;height:36px}.icon{width:32px}
+  .tab{font-size:12px;min-height:36px;padding:0}
   .tab .yr{display:none}
   .panel{width:calc(100% - 40px);display:flex;flex-direction:column;gap:20px;padding:24px 0}
   .big{width:min(240px,55vw,32vh);flex:none;align-self:center}
   .text{width:100%}
   .org{font-size:30px}
+  .era{width:calc(100% - 40px)}
+  footer h2{font-size:28px}
   .pts li{margin-bottom:12px}
 }
-@media print{.now,.system,.big,.world-backdrop{display:none}html,:root{background:#fff;color:#000}.panel{display:block;width:auto;padding:20px 0;min-height:0}.panel:last-child{min-height:0}}
+@media(max-width:480px){.pdf{display:none}}
+@media print{.now,.system,.big,.world-backdrop,.era,.cta{display:none}html,:root{background:#fff;color:#000}.panel{display:block;width:auto;padding:20px 0;min-height:0}.panel:last-child{min-height:0}}
 </style>
 </head>
 <body>
@@ -134,10 +176,12 @@ footer{width:min(1120px,calc(100% - 40px));margin:auto;padding:24px 0 40px;color
 <a class="skip" href="#career">Skip to career</a>
 <div class="now" id="now"><div class="now-inner">
   <p class="here" id="here"></p>
-  <a class="plain" id="plain" href="plain.html">Plain CV</a>
+  <div class="actions"><a class="plain" id="plain" href="plain.html">Plain CV</a><a class="pdf" href="Mohamed-Ashour-CV.pdf" download><span class="long">Download </span>PDF</a></div>
 </div></div>
 <header>
+  <p class="kicker">{{= ESC(headline[0]) }}</p>
   <h1>Mohamed Ashour</h1>
+  <p class="focus">{{= ESC(headline.slice(1).join(' · ')) }}{{= location ? `<span class="place">${ESC(location)}</span>` : '' }}</p>
   <p class="lead">{{= ESC(lead) }}</p>
   {{= links() }}
 </header>
@@ -153,12 +197,20 @@ footer{width:min(1120px,calc(100% - 40px));margin:auto;padding:24px 0 40px;color
     </div>
     <button class="orbit-toggle" type="button" aria-label="Pause orbit animation" aria-pressed="false" hidden>Pause</button>
   </nav>
-{{= ITEMS.map(it => `  <section class="panel" id="${it.id}" aria-labelledby="d-${it.id}-h">
+  <ol class="key" aria-label="Career at a glance">
+{{= ITEMS.map(it => `      <li><a href="#${it.id}" data-id="${it.id}"><span class="k-nm">${ESC(it.name)}</span>${/\d/.test(it.years) ? `<span class="k-yr">${ESC(it.years)}</span>` : ''}</a></li>`).join('\n') }}
+  </ol>
+{{= ITEMS.map(it => `${it.early && it.id === ITEMS.find(x => x.early).id ? '  <p class="era">Earlier roles</p>\n' : ''}  <section class="panel${it.early ? ' early' : ''}" id="${it.id}" aria-labelledby="d-${it.id}-h">
     <div class="big">${scene(it.id)}</div>
     <div class="text">${details(it.id)}</div>
   </section>`).join('\n') }}
 </main>
-<footer><a href="plain.html" class="plain-foot">Read the plain CV</a> · <a href="Mohamed-Ashour-CV.pdf" download>Download PDF</a></footer>
+<footer>
+  <h2>Get in touch</h2>
+  <p class="pitch">Building satellite data pipelines, data platforms or ML infrastructure? I'd be glad to talk.</p>
+  {{= ctas() }}
+  <p class="small"><a href="plain.html" class="plain-foot">Read the plain CV</a></p>
+</footer>
 <script>
 (() => {
   const sections = [...document.querySelectorAll('main > section[id]')];
@@ -322,7 +374,8 @@ footer{width:min(1120px,calc(100% - 40px));margin:auto;padding:24px 0 40px;color
         // Far-side icons are a little smaller, so depth reads even where they do not cross the planet.
         const frames = points.map(p => ({ left: `${p.left}px`, top: `${p.top}px`, zIndex: p.zIndex }));
         frames.forEach((f, step) => { const s = Math.sin(phases[index] + step * Math.PI / 36); f.transform = `translate(-50%,-50%) scale(${(.92 + .08 * s).toFixed(3)})`; });
-        const animation = item.animate(frames, { duration: 70000 / planes[index][1], iterations: Infinity, easing: 'linear' });
+        // Slow enough to aim at; hovering or focusing the orbit still pauses it.
+        const animation = item.animate(frames, { duration: 150000 / planes[index][1], iterations: Infinity, easing: 'linear' });
         animation.currentTime = times[index] ?? 0;
         animations.push(animation);
       }
@@ -332,9 +385,13 @@ footer{width:min(1120px,calc(100% - 40px));margin:auto;padding:24px 0 40px;color
     syncOrbit();
   }
   function highlightOrbit(target) {
-    const link = target?.closest?.('.tab');
-    system.querySelectorAll('.orbit-track').forEach(path => path.classList.toggle('highlighted', path.dataset.role === link?.dataset.id));
-    if (link) {
+    const link = target?.closest?.('.tab, .key a');
+    const id = link?.dataset.id;
+    system.querySelectorAll('.orbit-track').forEach(path => path.classList.toggle('highlighted', path.dataset.role === id));
+    // The text index and the orbit point at each other: hovering either lights up both.
+    keyLinks.forEach(a => a.classList.toggle('on', a.dataset.id === id));
+    marks.forEach(tab => tab.parentElement.classList.toggle('lit', !!link && link.matches('.key a') && tab.dataset.id === id));
+    if (link?.matches('.tab')) {
       const bounds = link.getBoundingClientRect();
       link.parentElement.dataset.edge = bounds.left < 80 ? 'left' : bounds.right > innerWidth - 80 ? 'right' : 'middle';
     }
@@ -347,6 +404,12 @@ footer{width:min(1120px,calc(100% - 40px));margin:auto;padding:24px 0 40px;color
     update(false);
     syncOrbit();
   });
+  const keyLinks = [...document.querySelectorAll('.key a')];
+  const keyList = document.querySelector('.key');
+  keyList.addEventListener('pointerover', event => highlightOrbit(event.target));
+  keyList.addEventListener('pointerleave', () => highlightOrbit(document.activeElement));
+  keyList.addEventListener('focusin', event => highlightOrbit(event.target));
+  keyList.addEventListener('focusout', () => queueMicrotask(() => highlightOrbit(document.activeElement)));
   system.addEventListener('pointerenter', syncOrbit);
   system.addEventListener('pointerover', event => highlightOrbit(event.target));
   system.addEventListener('pointerleave', () => { highlightOrbit(document.activeElement); syncOrbit(); });
