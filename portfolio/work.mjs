@@ -21,8 +21,11 @@ export const PROJECTS = [
   },
 ];
 
+// Most-read posts first, following the blog's "top" ranking.
 export const POSTS = [
   ['The Design Loop: how initial system designs evolve', 'https://blog.m-ashour.space/p/the-design-loop-my-notes-on-how-initial', '2025'],
-  ['Technical debt, explained for non-technical managers', 'https://blog.m-ashour.space/p/technical-debt-the-good-the-bad-the', '2025'],
+  ['My notes on the pursuit of maturity as a software engineer', 'https://blog.m-ashour.space/p/my-notes-on-the-pursuit-of-maturity', '2025'],
   ['The pre-commit stage and defect cost in the age of AI', 'https://blog.m-ashour.space/p/the-pre-commit-stage-and-the-defect', '2026'],
+  ['The four-ingredient blend for senior-level jobs', 'https://blog.m-ashour.space/p/the-four-ingredients-blend-for-senior', '2025'],
+  ["Stop DoS-ing your own team", 'https://blog.m-ashour.space/p/stop-dos-ing-your-own-team', '2025'],
 ];

@@ -259,7 +259,7 @@ footer .small{font-size:15px;color:var(--muted);margin:0}
   <ul class="cards">
 {{= PROJECTS.map(p => `    <li class="card">${icon(p.id)}<p class="kind">${ESC(p.kind)}</p><h3><a href="${ESC(p.href)}">${ESC(p.name)}</a></h3><p class="desc">${ESC(p.text)}</p><p class="tech">${p.tech.map(t => `<span class="chip">${ESC(t)}</span>`).join('<span class="sep">, </span>')}</p><p class="go">${ESC(p.cta)} →${p.more ? `<a href="${ESC(p.more[0])}">${ESC(p.more[1])}</a>` : ''}</p></li>`).join('\n') }}
   </ul>
-  <h3 class="posts-h">More writing</h3>
+  <h3 class="posts-h">Most-read writing</h3>
   <ul class="posts">
 {{= POSTS.map(([title, href, year]) => `    <li><a href="${ESC(href)}">${ESC(title)}</a><span class="k-yr">${year}</span></li>`).join('\n') }}
   </ul>
