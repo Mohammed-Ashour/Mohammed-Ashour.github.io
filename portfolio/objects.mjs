@@ -406,6 +406,14 @@ const ICONS = {
     g.rect(11, 10, 2, 2, 'g'); g.set(16, 14, 'g'); g.set(15, 8, 'g');
     g.sprite(['bb.bb', 'bbwbb', '..a..'], 20, 2);
   },
+  // LOD-MCP: a speech bubble in Luxembourg's colours, plugged into an assistant.
+  lodmcp(g) {
+    g.rect(2, 3, 20, 14, 'w');
+    g.rect(2, 3, 20, 5, 'c'); g.rect(2, 12, 20, 5, 'h');
+    g.poly([[5, 16], [11, 16], [5, 22]], 'h');
+    g.rect(18, 20, 7, 5, 'g'); g.rect(19, 17, 1, 3, 'a'); g.rect(23, 17, 1, 3, 'a');
+    g.rect(21, 25, 1, 3, 'G');
+  },
   // LODVault: a stack of flashcards, the front one in Luxembourg's colours.
   lodvault(g) {
     g.box(8, 2, 18, 13, 'g'); g.box(5, 5, 18, 13, 'G');

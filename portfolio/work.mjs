@@ -1,6 +1,13 @@
 // Side projects and writing shown under "Selected work". Keep descriptions to one sentence.
 export const PROJECTS = [
   {
+    id: 'lodmcp', name: 'LOD-MCP', kind: 'MCP server',
+    text: 'Lets AI assistants look up Luxembourgish in the Luxembourgish Online Dictionary instead of guessing, with compact, token-efficient answers.',
+    tech: ['Python', 'MCP', 'LOD API'],
+    href: 'https://github.com/OpenSprooch/lod-mcp', cta: 'View on GitHub',
+    featured: [['data.public.lu', 'https://data.public.lu/fr/'], ['Giving Luxembourgish a Voice in the Digital World', 'https://data.public.lu/fr/posts/giving-luxembourgish-a-voice-in-the-digital-world/']],
+  },
+  {
     id: 'khonsu', name: 'Khonsu', kind: 'Open source',
     text: 'Track satellites and predict passes from the terminal, with a TUI, a scriptable JSON CLI and self-contained 3D orbit exports.',
     tech: ['Go', 'Orbital mechanics', 'CLI'],
