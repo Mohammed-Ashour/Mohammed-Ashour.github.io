@@ -135,7 +135,7 @@ header,main,footer{position:relative;z-index:1}
 .work .era{width:auto;margin:32px 0 28px}
 .work h2{font-size:34px;line-height:1.15;font-weight:400;margin:0 0 6px}
 .work .intro{margin:0 0 28px;color:var(--muted);max-width:44rem}
-.cards{list-style:none;margin:0 0 40px;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.cards{list-style:none;margin:0 0 40px;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
 .card{position:relative;display:flex;flex-direction:column;padding:20px;border:1px solid var(--line);background:rgba(28,38,73,.55)}
 .card:hover,.card:focus-within{border-color:var(--acc)}
 .card .icon{width:56px;margin:0 0 14px}
@@ -145,6 +145,8 @@ header,main,footer{position:relative;z-index:1}
 .card h3 a::after{content:"";position:absolute;inset:0}
 .card p.desc{margin:0 0 16px;font-size:16px}
 .card .tech{margin:0 0 16px}
+.card .feat{margin:0 0 16px;font-size:15px;color:var(--muted)}
+.card .feat a{position:relative;z-index:1}
 .card .chip{white-space:normal}
 .card{min-width:0;overflow-wrap:anywhere}
 .card .go{margin:auto 0 0;font-size:15px;font-weight:600;color:var(--acc)}
@@ -257,7 +259,7 @@ footer .small{font-size:15px;color:var(--muted);margin:0}
   <h2 id="work-h">Selected work</h2>
   <p class="intro">Outside work I build small open-source tools, write about software engineering and data systems, and make videos about Python and machine learning.</p>
   <ul class="cards">
-{{= PROJECTS.map(p => `    <li class="card">${icon(p.id)}<p class="kind">${ESC(p.kind)}</p><h3><a href="${ESC(p.href)}">${ESC(p.name)}</a></h3><p class="desc">${ESC(p.text)}</p><p class="tech">${p.tech.map(t => `<span class="chip">${ESC(t)}</span>`).join('<span class="sep">, </span>')}</p><p class="go">${ESC(p.cta)} →${p.more ? `<a href="${ESC(p.more[0])}">${ESC(p.more[1])}</a>` : ''}</p></li>`).join('\n') }}
+{{= PROJECTS.map(p => `    <li class="card">${icon(p.id)}<p class="kind">${ESC(p.kind)}</p><h3><a href="${ESC(p.href)}">${ESC(p.name)}</a></h3><p class="desc">${ESC(p.text)}</p>${p.featured ? `<p class="feat">Featured on ${p.featured.map(([t, h]) => `<a href="${ESC(h)}">${ESC(t)}</a>`).join(': ')}</p>` : ''}<p class="tech">${p.tech.map(t => `<span class="chip">${ESC(t)}</span>`).join('<span class="sep">, </span>')}</p><p class="go">${ESC(p.cta)} →${p.more ? `<a href="${ESC(p.more[0])}">${ESC(p.more[1])}</a>` : ''}</p></li>`).join('\n') }}
   </ul>
   <h3 class="posts-h">Most-read writing</h3>
   <ul class="posts">
